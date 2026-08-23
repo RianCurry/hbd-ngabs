@@ -96,20 +96,30 @@ class AudioManager {
     if (this.isPlaying()) {
       this.pauseAll();
     } else {
-      switch (this.phase) {
-        case "game":
-          /* A click is a user gesture, so the element can be created here. */
-          this.ensureGameBgm().play().catch(() => {});
-          break;
-        case "reveal":
-          /* Resume mid-SFX; onended stays attached so the BGM still chains. */
-          this.sfx?.play().catch(() => {});
-          break;
-        case "main":
-          this.mainBgm?.play().catch(() => {});
-          break;
-      }
+      this.resumeCurrentPhase();
     }
+    this.emit();
+  }
+
+  /* Surprise-clip support: silence every channel so the video plays alone.
+     Reports whether anything was actually audible before pausing - if the
+     user had already muted, nothing is stopped and nothing will be revived
+     later. */
+  pauseBgm(): boolean {
+    const wasPlaying = this.isPlaying();
+    if (wasPlaying) {
+      this.pauseAll();
+      this.emit();
+    }
+    return wasPlaying;
+  }
+
+  /* Restores playback after a clip closes, but only when pauseBgm() had
+     actually stopped something (and nothing has been started meanwhile,
+     e.g. via the floating mute button). */
+  resumeBgm(shouldResume: boolean): void {
+    if (!shouldResume || this.isPlaying()) return;
+    this.resumeCurrentPhase();
     this.emit();
   }
 
@@ -177,6 +187,25 @@ class AudioManager {
   private disarmGestureRetry(): void {
     this.disarmGesture?.();
     this.disarmGesture = null;
+  }
+
+  /* Resumes whichever channel the current phase owns, from its paused
+     position. Runs inside click gestures (toggle, clip close), so playback
+     passes the autoplay policy directly. */
+  private resumeCurrentPhase(): void {
+    switch (this.phase) {
+      case "game":
+        /* A click is a user gesture, so the element can be created here. */
+        this.ensureGameBgm().play().catch(() => {});
+        break;
+      case "reveal":
+        /* Resume mid-SFX; onended stays attached so the BGM still chains. */
+        this.sfx?.play().catch(() => {});
+        break;
+      case "main":
+        this.mainBgm?.play().catch(() => {});
+        break;
+    }
   }
 
   private pauseAll(): void {

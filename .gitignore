@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 irianeka21@gmail.com
 irianeka21@gmail.com.pub
+
+# original (pre-compression) video backups, kept out of the deploy
+/originals

@@ -28,6 +28,14 @@ export const WISH_DOODLE_IMAGES = [
   "won.webp",
 ];
 
+/* Surprise clips for the wish scene's random-video button. H.264 + AAC,
+   720p, faststart, ~1.5 MB each - deliberately NOT preloaded; they only
+   download when the user actually opens one. */
+export const WISH_VIDEO_URLS = [
+  "/videos/wish-clip-1.mp4",
+  "/videos/wish-clip-2.mp4",
+];
+
 export function randomImageUrl(fileName: string): string {
   return `/images/random/${fileName}`;
 }
