@@ -39,7 +39,7 @@ export default function WishScene({ onRestart }: WishSceneProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="w-full rounded-2xl bg-white p-8 shadow-lg"
+        className="w-full rounded-2xl bg-white/40 p-8 shadow-lg"
       >
         <p className="whitespace-pre-line text-left text-body-lg leading-relaxed text-on-surface-variant">
           {wishesContent.content}

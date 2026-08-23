@@ -1,8 +1,8 @@
 /* Centralized audio playback for the whole flow.
 
-- Step 1 (game): chiptune BGM loops. Browsers reject autoplay before any
-  user interaction, so playback is armed with one-shot retry listeners that
-  fire on the first gesture (the first tic-tac-toe tap).
+- Step 1 (game): chiptune BGM loops. Playback starts immediately; browsers
+  that reject autoplay fall back to one-shot retry listeners fired on the
+  first gesture (the first tic-tac-toe tap).
 - Entering step 2 (BOOM reveal): the game BGM stops, a firework SFX plays
   once, then the Happy Birthday music-box BGM takes over and loops through
   the remaining scenes.
@@ -44,18 +44,17 @@ class AudioManager {
     );
   }
 
-  /* Step 1 BGM. Downloading is handled by the asset preloader during idle
-     time; only *playback* waits for a user gesture (autoplay policy), so
-     the bytes are usually already buffered by the first tap. Safe to call
-     repeatedly (idempotent). */
+  /* Step 1 BGM. Playback starts immediately on load; browsers that block
+     unsolicited autoplay reject the promise, and the one-shot gesture
+     retry below covers that case (music begins on the first tap).
+     Downloading is handled by the asset preloader during idle time, so
+     the bytes are usually already buffered. Safe to call repeatedly
+     (idempotent). */
   playGameBgm(): void {
     if (typeof window === "undefined" || this.phase !== null) return;
     this.phase = "game";
-    if (this.gameBgm) {
-      this.gameBgm.play().catch(() => this.armGestureRetry());
-    } else {
-      this.armGestureRetry();
-    }
+    const el = this.ensureGameBgm();
+    el.play().catch(() => this.armGestureRetry());
     this.emit();
   }
 
