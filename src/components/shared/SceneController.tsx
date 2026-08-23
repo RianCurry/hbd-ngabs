@@ -1,20 +1,27 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { PartyPopper } from "lucide-react";
 import type { BirthdayScene } from "@/types";
 import { SCENE_ORDER } from "@/types";
 import TicTacToe from "@/components/game/TicTacToe";
-import BirthdayReveal from "@/components/birthday/BirthdayReveal";
-import CakeScene from "@/components/cake/CakeScene";
-import JourneyScene from "@/components/journey/JourneyScene";
-import WishScene from "@/components/wish/WishScene";
 import AudioControl from "@/components/shared/AudioControl";
 import FireworksTransition from "@/components/confetti/FireworksTransition";
 import { audioManager } from "@/lib/audio-manager";
 
-const sceneComponents: Record<BirthdayScene, React.FC<{ onComplete: () => void }>> = {
+/* Only the first scene ships in the initial bundle; later scenes are
+   code-split and fetched on first navigation (masked by the crossfade). */
+const BirthdayReveal = dynamic(() => import("@/components/birthday/BirthdayReveal"));
+const CakeScene = dynamic(() => import("@/components/cake/CakeScene"));
+const JourneyScene = dynamic(() => import("@/components/journey/JourneyScene"));
+const WishScene = dynamic(() => import("@/components/wish/WishScene"));
+
+const sceneComponents: Record<
+  BirthdayScene,
+  React.ComponentType<{ onComplete: () => void }>
+> = {
   game: TicTacToe,
   birthday: BirthdayReveal,
   cake: CakeScene,

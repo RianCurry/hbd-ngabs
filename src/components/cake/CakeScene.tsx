@@ -110,6 +110,7 @@ function MemoryModal({ memory, onClose }: MemoryModalProps) {
           alt={`Memory ${memory.id}`}
           fill
           sizes="(max-width: 480px) 90vw, 340px"
+          unoptimized
           className="object-cover"
         />
       </div>

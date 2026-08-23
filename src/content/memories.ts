@@ -6,18 +6,18 @@ export const memories: Memory[] = [
     id: 1,
     title: "",
     description: "",
-    image: "/images/gallery/candle1.jpg",
+    image: "/images/gallery/candle1.webp",
   },
   {
     id: 2,
     title: "",
     description: "",
-    image: "/images/gallery/candle2.jpg",
+    image: "/images/gallery/candle2.webp",
   },
   {
     id: 3,
     title: "",
     description: "",
-    image: "/images/gallery/candle3.jpg",
+    image: "/images/gallery/candle3.webp",
   },
 ];

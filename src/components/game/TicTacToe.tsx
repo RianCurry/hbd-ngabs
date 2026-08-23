@@ -45,18 +45,18 @@ function getRandomMove(board: Board): number | null {
 }
 
 /* Verified local assets in public/images/random/ (URL-safe names).
-   GIFs are shown unoptimized to keep their animation.
-   Images are purely visual - game state stays "X"/"O". */
+   All assets are pre-optimized WebP (GIFs re-encoded as animated WebP to
+   keep their animation) and served unoptimized - game state stays "X"/"O". */
 const OPPONENT_MOVE_IMAGES = [
-  "o.jpg",
-  "1109081845759492281.jpg",
-  "945052303040563947.jpg",
-  "suzumiya-haruhi.jpg",
-  "nailong-gif-2.gif",
-  "nailong-yellow-dragon-1.gif",
-  "nailong-yellow-dragon-5.gif",
+  "o.webp",
+  "1109081845759492281.webp",
+  "945052303040563947.webp",
+  "suzumiya-haruhi.webp",
+  "nailong-gif-2.webp",
+  "nailong-yellow-dragon-1.webp",
+  "nailong-yellow-dragon-5.webp",
 ];
-const WIN_IMAGE = "won.gif";
+const WIN_IMAGE = "won.webp";
 
 function randomImageUrl(fileName: string): string {
   return `/images/random/${fileName}`;

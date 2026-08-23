@@ -3,8 +3,14 @@
 import { motion } from "framer-motion";
 import { wishesContent } from "@/content/wishes";
 
+interface WishSceneProps {
+  /* Final scene of the flow - onComplete is accepted for compatibility
+     with the scene map but is intentionally unused (nothing follows). */
+  onComplete: () => void;
+}
+
 /* Final scene of the flow - no onComplete navigation needed. */
-export default function WishScene() {
+export default function WishScene({}: WishSceneProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

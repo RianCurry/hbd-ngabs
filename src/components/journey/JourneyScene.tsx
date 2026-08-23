@@ -106,6 +106,7 @@ export default function JourneyScene({ onComplete }: JourneySceneProps) {
                                 alt={item.period}
                                 width={200}
                                 height={200}
+                                unoptimized
                                 className="aspect-square h-auto w-full rounded-lg border border-outline-variant/30 object-cover"
                               />
                             ))}

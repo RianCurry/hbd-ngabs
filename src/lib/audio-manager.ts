@@ -12,7 +12,7 @@ re-renders and call imperative methods on scene events. */
 
 export type AudioPhase = "game" | "reveal" | "main";
 
-const GAME_BGM_SRC = "/audio/bgm-game-suzumiya.mp3";
+const GAME_BGM_SRC = "/audio/bgm-game-suzumiya-v2.mp3";
 const MAIN_BGM_SRC = "/audio/bgm-happy-birthday.mp3";
 const FIREWORKS_SFX_SRC = "/audio/sfx-fireworks.mp3";
 
@@ -41,14 +41,18 @@ class AudioManager {
     );
   }
 
-  /* Step 1 BGM; safe to call repeatedly (idempotent). */
+  /* Step 1 BGM; safe to call repeatedly (idempotent).
+     The Audio element is created lazily on the first user gesture: browsers
+     reject autoplay anyway, so downloading the BGM at mount time would only
+     waste mobile bandwidth before it can ever play. */
   playGameBgm(): void {
     if (typeof window === "undefined" || this.phase !== null) return;
     this.phase = "game";
-    if (!this.gameBgm) {
-      this.gameBgm = this.createElement(GAME_BGM_SRC, 0.4, true);
+    if (this.gameBgm) {
+      this.gameBgm.play().catch(() => this.armGestureRetry());
+    } else {
+      this.armGestureRetry();
     }
-    this.gameBgm.play().catch(() => this.armGestureRetry(this.gameBgm!));
     this.emit();
   }
 
@@ -78,7 +82,8 @@ class AudioManager {
     } else {
       switch (this.phase) {
         case "game":
-          this.gameBgm?.play().catch(() => {});
+          /* A click is a user gesture, so the element can be created here. */
+          this.ensureGameBgm().play().catch(() => {});
           break;
         case "reveal":
           /* Resume mid-SFX; onended stays attached so the BGM still chains. */
@@ -111,10 +116,19 @@ class AudioManager {
     this.emit();
   }
 
+  /* Creates the step-1 BGM element on demand (first gesture/toggle). */
+  private ensureGameBgm(): HTMLAudioElement {
+    if (!this.gameBgm) {
+      this.gameBgm = this.createElement(GAME_BGM_SRC, 0.4, true);
+    }
+    return this.gameBgm;
+  }
+
   /* Retries playback on the first user gesture, then removes itself. */
-  private armGestureRetry(el: HTMLAudioElement): void {
+  private armGestureRetry(): void {
     this.disarmGestureRetry();
     const handler = () => {
+      const el = this.ensureGameBgm();
       el.play()
         .then(() => this.disarmGestureRetry())
         .catch(() => {});
