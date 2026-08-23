@@ -1,21 +1,237 @@
 @import "tailwindcss";
 
-:root {
-  --background: #fdf2f8;
-  --foreground: #171717;
+/* ============================================================
+   Design tokens - extracted from the approved Stitch references
+   (docs/design/stitch/*.md). All four references share this
+   warm Material-3 palette, type scale and radius language.
+   ============================================================ */
+@theme {
+  /* Warm Material-3 palette */
+  --color-background: #fff9f0;
+  --color-on-surface: #1d1b16;
+  --color-on-surface-variant: #57423e;
+  --color-primary: #a53b29;
+  --color-primary-container: #ff7e67;
+  --color-primary-fixed: #ffdad4;
+  --color-primary-fixed-dim: #ffb4a6;
+  --color-on-primary-container: #731709;
+  --color-secondary-container: #fdd73b;
+  --color-secondary-fixed: #ffe173;
+  --color-on-secondary-container: #715d00;
+  --color-tertiary-container: #51b3b2;
+  --color-tertiary-fixed: #93f2f1;
+  --color-surface-variant: #e7e2d9;
+  --color-surface-container-low: #f9f3ea;
+  --color-outline-variant: #dec0ba;
+
+  /* Type scale (Bricolage Grotesque = display, Quicksand = body) */
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 3.25rem;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-md: 2.25rem;
+  --text-display-md--line-height: 2.5rem;
+  --text-display-md--letter-spacing: -0.01em;
+  --text-headline: 1.75rem;
+  --text-headline--line-height: 2.125rem;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.75rem;
+  --text-label-caps: 0.75rem;
+  --text-label-caps--line-height: 1rem;
+  --text-label-caps--letter-spacing: 0.1em;
+
+  /* Fonts are loaded via next/font in src/app/layout.tsx */
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-quicksand), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================================
+   Shared effect utilities (adapted from the Stitch references)
+   ============================================================ */
+
+/* Pill button with hard offset shadow + springy press.
+   Shadow color is overridable per variant via --pill-shadow-color. */
+.bouncy-pill {
+  --pill-shadow-color: #a53b29;
+  box-shadow: 0 4px 0 0 var(--pill-shadow-color);
+  transition:
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.bouncy-pill:active:not(:disabled) {
+  transform: translateY(4px) scale(0.98);
+  box-shadow: 0 0 0 0 var(--pill-shadow-color);
+}
+.bouncy-pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: translateY(4px);
+  box-shadow: 0 0 0 0 var(--pill-shadow-color);
+  background-color: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Soft coral-tinted card shadow */
+.card-depth {
+  box-shadow: 0 10px 30px -10px rgba(255, 126, 103, 0.15);
+}
+
+/* Staggered entrance pop. fill-mode: backwards keeps elements
+   visible before the delay elapses and after it finishes. */
+.pop-in {
+  animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+@keyframes pop-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.float-doodle {
+  animation: float-doodle 4s ease-in-out infinite;
+}
+@keyframes float-doodle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Falling confetti piece; per-piece values come in as CSS vars */
+.confetti-piece {
+  position: absolute;
+  top: 0;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confetti-fall var(--duration, 3s) var(--delay, 0s) ease-out forwards;
+}
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, -5vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--drift, 0px), 105vh) rotate(var(--spin, 360deg));
+    opacity: 0;
+  }
+}
+
+/* Firework particle for FireworksTransition; travel values come in as
+   CSS vars. fill-mode: forwards leaves every particle invisible at rest. */
+.firework-particle {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0;
+  animation: firework-burst var(--duration, 0.7s) var(--delay, 0s)
+    cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
+}
+@keyframes firework-burst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0.4);
+    opacity: 0;
+  }
+}
+
+/* Quick white pop at the burst origin */
+.firework-flash {
+  position: absolute;
+  left: -14px;
+  top: -14px;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), transparent 70%);
+  border-radius: 9999px;
+  opacity: 0;
+  animation: firework-flash 0.4s ease-out forwards;
+}
+@keyframes firework-flash {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Smoke puff when a candle is blown out */
+.smoke-puff {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: puff 0.6s ease-out forwards;
+  z-index: 31;
+}
+@keyframes puff {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -110%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Decorative page backgrounds */
+.bg-dot-grid {
+  background-image: radial-gradient(#fdd73b 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.bg-sparkles {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 126, 103, 0.5) 2px, transparent 2px),
+    radial-gradient(circle at 80% 40%, rgba(253, 215, 59, 0.6) 2px, transparent 2px),
+    radial-gradient(circle at 40% 70%, rgba(255, 126, 103, 0.4) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 70% 80%, rgba(253, 215, 59, 0.5) 2.5px, transparent 2.5px);
+  background-size: 100px 100px;
+}
+
+/* Stroked display text (BOOM scene) */
+.text-outline-coral {
+  color: var(--color-primary-fixed-dim);
+  -webkit-text-stroke: 3px var(--color-primary);
+}
+.text-outline-brown {
+  color: var(--color-on-primary-container);
+  -webkit-text-stroke: 1px #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+.text-outline-gold {
+  color: var(--color-secondary-container);
+  -webkit-text-stroke: 3px var(--color-on-secondary-container);
+  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-reduced-motion: reduce) {

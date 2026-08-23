@@ -1,9 +1,14 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { motion } from "framer-motion";
-import { RotateCcw } from "lucide-react";
+import { useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, RotateCcw } from "lucide-react";
 import type { Board, GameResult } from "@/types";
+import BouncyButton from "@/components/shared/BouncyButton";
+import OverlayCard from "@/components/shared/OverlayCard";
+import FloatingDoodles from "@/components/shared/FloatingDoodles";
+import ConfettiBurst from "@/components/confetti/ConfettiBurst";
 
 const WINNING_LINES = [
   [0, 1, 2],
@@ -26,146 +31,206 @@ function checkWinner(board: Board): GameResult {
   return null;
 }
 
-function getAIMove(board: Board): number {
-  const empty = board
-    .map((cell, i) => (cell === null ? i : -1))
-    .filter((i) => i !== -1);
+/* Pure random selection from the currently empty cells.
+   No strategy: the opponent never tries to win or block.
+   Returns null only when the board has no empty cells left. */
+function getRandomMove(board: Board): number | null {
+  const emptyCells = board
+    .map((cell, index) => (cell === null ? index : null))
+    .filter((index): index is number => index !== null);
 
-  for (const i of empty) {
-    const test = [...board];
-    test[i] = "O";
-    if (checkWinner(test) === "loss") return i;
-  }
+  if (emptyCells.length === 0) return null;
 
-  for (const i of empty) {
-    const test = [...board];
-    test[i] = "X";
-    if (checkWinner(test) === "win") return i;
-  }
+  return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+}
 
-  if (empty.includes(4)) return 4;
+/* Verified local assets in public/images/random/ (URL-safe names).
+   GIFs are shown unoptimized to keep their animation.
+   Images are purely visual - game state stays "X"/"O". */
+const OPPONENT_MOVE_IMAGES = [
+  "o.jpg",
+  "1109081845759492281.jpg",
+  "945052303040563947.jpg",
+  "suzumiya-haruhi.jpg",
+  "nailong-gif-2.gif",
+  "nailong-yellow-dragon-1.gif",
+  "nailong-yellow-dragon-5.gif",
+];
+const WIN_IMAGE = "won.gif";
 
-  const corners = [0, 2, 6, 8].filter((i) => empty.includes(i));
-  if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
+function randomImageUrl(fileName: string): string {
+  return `/images/random/${fileName}`;
+}
 
-  return empty[Math.floor(Math.random() * empty.length)];
+function pickRandomImage(): string {
+  return randomImageUrl(
+    OPPONENT_MOVE_IMAGES[Math.floor(Math.random() * OPPONENT_MOVE_IMAGES.length)]
+  );
 }
 
 interface TicTacToeProps {
   onComplete: () => void;
 }
 
+const RESULT_TITLES: Record<Exclude<GameResult, null>, string> = {
+  win: "YOU WIN!",
+  loss: "YOU LOSE...",
+  draw: "IT'S A DRAW!",
+};
+
 export default function TicTacToe({ onComplete }: TicTacToeProps) {
   const [board, setBoard] = useState<Board>(Array(9).fill(null));
-  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [result, setResult] = useState<GameResult>(null);
-  const [isThinking, setIsThinking] = useState(false);
+  /* Visual only: which random image each Nailong move displays. */
+  const [opponentImages, setOpponentImages] = useState<Record<number, string>>({});
+  const [resultImage, setResultImage] = useState<string | null>(null);
 
-  const handlePlayerMove = useCallback(
-    (index: number) => {
-      if (board[index] || !isPlayerTurn || result || isThinking) return;
+  /* A full round resolves synchronously in this single handler:
+     player move -> win/draw check -> immediate random Nailong move ->
+     win/draw check -> control back to the player. No timers, no async
+     waiting states, so the game can never get stuck mid-turn. */
+  const handlePlayerMove = (index: number) => {
+    if (result || board[index]) return;
 
-      const newBoard = [...board];
-      newBoard[index] = "X";
+    // 1. Player move
+    const afterPlayer = [...board];
+    afterPlayer[index] = "X";
 
-      const gameResult = checkWinner(newBoard);
-      if (gameResult) {
-        setBoard(newBoard);
-        setResult(gameResult);
-        return;
-      }
+    // 2. Immediate result check for the player's move
+    const playerResult = checkWinner(afterPlayer);
+    if (playerResult) {
+      setBoard(afterPlayer);
+      setResult(playerResult);
+      setResultImage(
+        playerResult === "win" ? randomImageUrl(WIN_IMAGE) : pickRandomImage()
+      );
+      return; // Nailong does not move
+    }
 
-      setBoard(newBoard);
-      setIsPlayerTurn(false);
-      setIsThinking(true);
-    },
-    [board, isPlayerTurn, result, isThinking]
-  );
+    // 3. Nailong's turn: random empty cell from the UPDATED board
+    const nailongMove = getRandomMove(afterPlayer);
+    if (nailongMove === null) {
+      // Defensive: no empty cells means draw
+      setBoard(afterPlayer);
+      setResult("draw");
+      setResultImage(pickRandomImage());
+      return;
+    }
 
-  useEffect(() => {
-    if (isPlayerTurn || isThinking) return;
+    const afterNailong = [...afterPlayer];
+    afterNailong[nailongMove] = "O";
 
-    const timer = setTimeout(() => {
-      const aiMove = getAIMove(board);
-      const newBoard = [...board];
-      newBoard[aiMove] = "O";
-
-      const gameResult = checkWinner(newBoard);
-      setBoard(newBoard);
-      setIsPlayerTurn(true);
-      setIsThinking(false);
-      if (gameResult) setResult(gameResult);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [board, isPlayerTurn, isThinking, result]);
+    // 4. Immediate result check for Nailong's move
+    const nailongResult = checkWinner(afterNailong);
+    setBoard(afterNailong);
+    setOpponentImages((prev) => ({ ...prev, [nailongMove]: pickRandomImage() }));
+    if (nailongResult) {
+      setResult(nailongResult);
+      setResultImage(
+        nailongResult === "win" ? randomImageUrl(WIN_IMAGE) : pickRandomImage()
+      );
+    }
+    // Otherwise control is already back with the player - no flags to restore
+  };
 
   const resetGame = () => {
     setBoard(Array(9).fill(null));
-    setIsPlayerTurn(true);
     setResult(null);
-    setIsThinking(false);
+    setOpponentImages({});
+    setResultImage(null);
   };
-
-  const resultMessage = result === "win" ? "You win!" : result === "loss" ? "You lose!" : "It's a draw!";
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="flex flex-col items-center gap-8 p-6"
+      className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center px-6 pb-16 pt-28"
     >
-      <h2 className="text-2xl font-bold">Tic-Tac-Toe</h2>
-      <p className="text-sm text-gray-500">Beat the AI to continue!</p>
+      <FloatingDoodles />
+      {result === "win" && <ConfettiBurst />}
 
-      <div className="grid grid-cols-3 gap-2 w-full max-w-xs">
-        {board.map((cell, index) => (
-          <button
-            key={index}
-            onClick={() => handlePlayerMove(index)}
-            disabled={!!cell || !isPlayerTurn || !!result || isThinking}
-            aria-label={`Cell ${index + 1}: ${cell || "empty"}`}
-            className={`aspect-square flex items-center justify-center text-3xl font-bold rounded-lg border-2 transition-colors ${
-              cell === "X"
-                ? "bg-blue-100 border-blue-400 text-blue-600"
-                : cell === "O"
-                  ? "bg-red-100 border-red-400 text-red-600"
-                  : "bg-white border-gray-300 hover:border-gray-400 active:bg-gray-100"
-            } disabled:cursor-not-allowed`}
-          >
-            {cell}
-          </button>
-        ))}
+      {/* Header */}
+      <div className="pop-in mb-4 text-center">
+        <h2 className="mb-2 font-display text-display-md font-extrabold text-on-surface">
+          Let&apos;s start with a game!
+        </h2>
+        <p className="text-body-lg text-on-surface-variant">
+          Beat Nailong to see your surprise. You&apos;re &apos;X&apos;!
+        </p>
       </div>
 
-      {isThinking && <p className="text-sm text-gray-400 animate-pulse">AI is thinking...</p>}
-
-      {result && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="flex flex-col items-center gap-4"
-        >
-          <p className="text-xl font-semibold">{resultMessage}</p>
-          <div className="flex gap-3">
+      {/* Board card */}
+      <div
+        className="pop-in card-depth mx-auto w-full max-w-[300px] rounded-[32px] border border-primary-fixed-dim bg-white p-6"
+        style={{ animationDelay: "0.15s" }}
+      >
+        <div className="grid aspect-square w-full grid-cols-3 gap-2 rounded-2xl bg-surface-variant p-2">
+          {board.map((cell, index) => (
             <button
-              onClick={resetGame}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+              key={index}
+              onClick={() => handlePlayerMove(index)}
+              disabled={!!cell || !!result}
+              aria-label={`Cell ${index + 1}: ${cell || "empty"}`}
+              className={`aspect-square rounded-xl bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container ${
+                cell || result
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer hover:bg-surface-container-low active:bg-surface-container"
+              }`}
             >
-              <RotateCcw size={16} />
-              Retry
+              {cell &&
+                (cell === "X" ? (
+                  <span className="pop-in inline-block font-display text-5xl font-extrabold text-primary md:text-6xl">
+                    {cell}
+                  </span>
+                ) : (
+                  <span className="pop-in block h-4/5 w-4/5 overflow-hidden">
+                    <Image
+                      src={opponentImages[index]}
+                      alt="Nailong move"
+                      width={160}
+                      height={160}
+                      unoptimized
+                      className="h-full w-full object-contain"
+                    />
+                  </span>
+                ))}
             </button>
-            {result === "win" && (
-              <button
-                onClick={onComplete}
-                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              >
-                Continue
-              </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Result modal */}
+      <AnimatePresence>
+        {result && resultImage && (
+          <OverlayCard>
+            <h3 className="mt-2 mb-4 text-center font-display text-headline font-bold text-primary">
+              {RESULT_TITLES[result]}
+            </h3>
+            <div className="mb-6 flex w-full justify-center rounded-2xl bg-surface-variant p-2">
+              <Image
+                src={resultImage}
+                alt={RESULT_TITLES[result]}
+                width={176}
+                height={176}
+                unoptimized
+                className="h-44 w-44 rounded-xl object-contain shadow-inner"
+              />
+            </div>
+            {result === "win" ? (
+              <BouncyButton onClick={onComplete} className="w-full">
+                <span>Continue</span>
+                <ArrowRight size={24} strokeWidth={3} aria-hidden />
+              </BouncyButton>
+            ) : (
+              <BouncyButton variant="muted" onClick={resetGame} className="w-full">
+                <RotateCcw size={22} strokeWidth={3} aria-hidden />
+                <span>Try Again</span>
+              </BouncyButton>
             )}
-          </div>
-        </motion.div>
-      )}
+          </OverlayCard>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

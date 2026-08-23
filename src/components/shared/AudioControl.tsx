@@ -1,39 +1,21 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+import { audioManager } from "@/lib/audio-manager";
 
 export default function AudioControl() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      audioRef.current = new Audio("/audio/bgm.mp3");
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
-    }
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
+  /* Reflects the shared manager state (game BGM, reveal SFX chain, or the
+     Happy Birthday BGM) instead of owning its own element. */
+  useEffect(() => audioManager.subscribe(() => setIsPlaying(audioManager.isPlaying())), []);
 
-  const togglePlay = useCallback(() => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch(() => {});
-    }
-    setIsPlaying(!isPlaying);
-  }, [isPlaying]);
+  useEffect(() => () => audioManager.destroy(), []);
 
   return (
     <button
-      onClick={togglePlay}
+      onClick={() => audioManager.toggle()}
       aria-label={isPlaying ? "Mute audio" : "Play audio"}
       className="fixed bottom-4 right-4 z-50 p-3 bg-white/80 backdrop-blur rounded-full shadow-lg hover:bg-white transition-colors"
     >

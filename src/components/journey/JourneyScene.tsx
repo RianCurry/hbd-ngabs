@@ -1,13 +1,33 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  BookOpen,
+  Cake,
+  ChevronDown,
+  ChevronUp,
+  School,
+  Sparkles,
+} from "lucide-react";
 import { journeyItems } from "@/content/journey";
+import BouncyButton from "@/components/shared/BouncyButton";
 
 interface JourneySceneProps {
   onComplete: () => void;
 }
+
+const MEDALLION_STYLES = [
+  { circle: "bg-primary", icon: "text-primary-fixed" },
+  { circle: "bg-secondary-container", icon: "text-on-secondary-container" },
+  { circle: "bg-primary-container", icon: "text-on-primary-container" },
+  { circle: "bg-tertiary-container", icon: "text-tertiary-fixed" },
+];
+
+const MEDALLION_ICONS = [Cake, School, BookOpen, Sparkles];
+
+const PERIOD_COLORS = ["text-primary", "text-secondary", "text-secondary", "text-primary"];
 
 export default function JourneyScene({ onComplete }: JourneySceneProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -17,64 +37,93 @@ export default function JourneyScene({ onComplete }: JourneySceneProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="flex flex-col items-center gap-6 p-6 min-h-screen"
+      className="bg-sparkles relative z-10 mx-auto flex min-h-screen w-full max-w-[480px] flex-col items-center px-6 pb-16 pt-28"
     >
-      <h2 className="text-2xl font-bold">The Journey</h2>
+      {/* Badge + heading */}
+      <div className="pop-in flex w-full flex-col items-center text-center">
+        <span className="mb-4 inline-block self-start rounded-full bg-surface-variant px-3 py-1 text-label-caps font-bold uppercase tracking-widest text-on-surface-variant">
+          The Journey
+        </span>
+        <h2 className="mb-8 font-display text-display-md font-extrabold tracking-tight text-on-surface md:text-display-lg">
+          Your Journey
+        </h2>
 
-      <div className="relative w-full max-w-md">
-        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-300" />
+        {/* Timeline */}
+        <div className="relative mb-12 flex w-full flex-col gap-6 before:absolute before:bottom-4 before:left-[19px] before:top-4 before:w-0.5 before:bg-primary/20">
+          {journeyItems.map((item, index) => {
+            const MedallionIcon = MEDALLION_ICONS[index % MEDALLION_ICONS.length];
+            const medallionStyle = MEDALLION_STYLES[index % MEDALLION_STYLES.length];
+            const isExpanded = expandedIndex === index;
 
-        {journeyItems.map((item, index) => (
-          <motion.div
-            key={item.period}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.15 }}
-            className="relative pl-14 pb-8"
-          >
-            <div className="absolute left-4 w-5 h-5 bg-pink-500 rounded-full border-4 border-white shadow" />
-
-            <button
-              onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-              className="w-full text-left"
-              aria-expanded={expandedIndex === index}
-            >
-              <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-pink-500">{item.period}</span>
-                  {expandedIndex === index ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            return (
+              <motion.div
+                key={item.period}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.15 }}
+                className="relative z-10 flex items-start gap-4"
+              >
+                <div
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-md ${medallionStyle.circle}`}
+                  aria-hidden
+                >
+                  <MedallionIcon size={20} strokeWidth={2.5} className={medallionStyle.icon} />
                 </div>
-                <h3 className="text-lg font-bold mt-1">{item.title}</h3>
 
-                <AnimatePresence>
-                  {expandedIndex === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
+                <button
+                  type="button"
+                  onClick={() => setExpandedIndex(isExpanded ? null : index)}
+                  aria-expanded={isExpanded}
+                  className="flex-1 rounded-2xl border border-outline-variant/30 bg-surface-container-low p-4 text-left shadow-sm transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-container"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span
+                      className={`text-label-caps font-bold uppercase tracking-widest ${PERIOD_COLORS[index % PERIOD_COLORS.length]}`}
                     >
-                      <p className="text-gray-600 mt-2">{item.description}</p>
-                      {item.image && (
-                        <div className="mt-2 h-32 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-                          TODO: Image
-                        </div>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </button>
-          </motion.div>
-        ))}
-      </div>
+                      {item.period}
+                    </span>
+                    {isExpanded ? (
+                      <ChevronUp size={18} aria-hidden className="shrink-0 text-on-surface-variant" />
+                    ) : (
+                      <ChevronDown size={18} aria-hidden className="shrink-0 text-on-surface-variant" />
+                    )}
+                  </div>
 
-      <button
-        onClick={onComplete}
-        className="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors mt-4"
-      >
-        Continue
-      </button>
+                  <AnimatePresence initial={false}>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        {item.images.length > 0 && (
+                          <div className="mt-3 grid grid-cols-3 gap-2">
+                            {item.images.map((src) => (
+                              <Image
+                                key={src}
+                                src={src}
+                                alt={item.period}
+                                width={200}
+                                height={200}
+                                className="aspect-square h-auto w-full rounded-lg border border-outline-variant/30 object-cover"
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </button>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <BouncyButton variant="yellow" onClick={onComplete} className="w-[80%] max-w-[240px]">
+          Continue
+        </BouncyButton>
+      </div>
     </motion.div>
   );
 }

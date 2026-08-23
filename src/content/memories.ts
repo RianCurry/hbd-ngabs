@@ -1,22 +1,23 @@
 import type { Memory } from "@/types";
 
+/* Step 3: photo-only memory modal (no copy), candle keyword images. */
 export const memories: Memory[] = [
   {
     id: 1,
-    title: "TODO: Memory 1 Title",
-    description: "TODO: Memory 1 description",
-    image: "",
+    title: "",
+    description: "",
+    image: "/images/gallery/candle1.jpg",
   },
   {
     id: 2,
-    title: "TODO: Memory 2 Title",
-    description: "TODO: Memory 2 description",
-    image: "",
+    title: "",
+    description: "",
+    image: "/images/gallery/candle2.jpg",
   },
   {
     id: 3,
-    title: "TODO: Memory 3 Title",
-    description: "TODO: Memory 3 description",
-    image: "",
+    title: "",
+    description: "",
+    image: "/images/gallery/candle3.jpg",
   },
 ];
