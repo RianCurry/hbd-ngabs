@@ -1,16 +1,18 @@
 import type { JourneyItem } from "@/types";
 
 /* Step 4: period label + keyword-named photos only (no title/description).
-   NOTE: the MTS and GALLERY entries reference photo files that were never
-   committed to public/images/gallery/ (1724760702595.jpg, now1.jpg,
-   now2.jpg). They are kept as empty image lists until real photos are
-   added, so no broken images are rendered. */
+   Photos come from public/images/gallery/ (committed since e236c8c):
+   - SMP-era photos represent the MTS period (same school level)
+   - college2.jpg completes the KULIAH period
+   - remaining unused photos (candleN,M.jpg variants) form the GALLERY */
 export const journeyItems: JourneyItem[] = [
   {
     period: "MTS",
     title: "",
     description: "",
-    images: [],
+    images: ["smp1.jpg", "smp2.jpg"].map(
+      (file) => `/images/gallery/${file}`
+    ),
   },
   {
     period: "SMK/SMA",
@@ -24,12 +26,20 @@ export const journeyItems: JourneyItem[] = [
     period: "KULIAH",
     title: "",
     description: "",
-    images: ["college1.webp"].map((file) => `/images/gallery/${file}`),
+    images: ["college1.webp", "college2.jpg"].map(
+      (file) => `/images/gallery/${file}`
+    ),
   },
   {
     period: "GALLERY",
     title: "",
     description: "",
-    images: [],
+    images: [
+      "candle1,1.jpg",
+      "candle1,2.jpg",
+      "candle1,3.jpg",
+      "candle3,1.jpg",
+      "candle3,2.jpg",
+    ].map((file) => `/images/gallery/${file}`),
   },
 ];

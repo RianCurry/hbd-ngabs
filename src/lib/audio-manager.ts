@@ -10,11 +10,14 @@
 The manager is a plain module singleton; React consumers subscribe for
 re-renders and call imperative methods on scene events. */
 
-export type AudioPhase = "game" | "reveal" | "main";
+import {
+  FIREWORKS_SFX_SRC,
+  GAME_BGM_SRC,
+  MAIN_BGM_SRC,
+  getAudioElement,
+} from "@/lib/asset-preloader";
 
-const GAME_BGM_SRC = "/audio/bgm-game-suzumiya-v2.mp3";
-const MAIN_BGM_SRC = "/audio/bgm-happy-birthday.mp3";
-const FIREWORKS_SFX_SRC = "/audio/sfx-fireworks.mp3";
+export type AudioPhase = "game" | "reveal" | "main";
 
 /* Events that count as a user activation for autoplay purposes. */
 const GESTURE_EVENTS = ["pointerdown", "keydown", "touchstart"] as const;
@@ -41,10 +44,10 @@ class AudioManager {
     );
   }
 
-  /* Step 1 BGM; safe to call repeatedly (idempotent).
-     The Audio element is created lazily on the first user gesture: browsers
-     reject autoplay anyway, so downloading the BGM at mount time would only
-     waste mobile bandwidth before it can ever play. */
+  /* Step 1 BGM. Downloading is handled by the asset preloader during idle
+     time; only *playback* waits for a user gesture (autoplay policy), so
+     the bytes are usually already buffered by the first tap. Safe to call
+     repeatedly (idempotent). */
   playGameBgm(): void {
     if (typeof window === "undefined" || this.phase !== null) return;
     this.phase = "game";
@@ -116,7 +119,8 @@ class AudioManager {
     this.emit();
   }
 
-  /* Creates the step-1 BGM element on demand (first gesture/toggle). */
+  /* Grabs the step-1 BGM on demand (first gesture/toggle); the underlying
+     element is usually already downloaded by the preloader. */
   private ensureGameBgm(): HTMLAudioElement {
     if (!this.gameBgm) {
       this.gameBgm = this.createElement(GAME_BGM_SRC, 0.4, true);
@@ -152,15 +156,16 @@ class AudioManager {
     [this.gameBgm, this.mainBgm, this.sfx].forEach((el) => el?.pause());
   }
 
+  /* Reuses the element the preloader registered for this URL, so playback
+     starts from already-buffered data instead of a second download. */
   private createElement(
     src: string,
     volume: number,
     loop = false
   ): HTMLAudioElement {
-    const el = new Audio(src);
+    const el = getAudioElement(src);
     el.volume = volume;
     el.loop = loop;
-    el.preload = "auto";
     return el;
   }
 

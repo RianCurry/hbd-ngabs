@@ -10,6 +10,7 @@ import TicTacToe from "@/components/game/TicTacToe";
 import AudioControl from "@/components/shared/AudioControl";
 import FireworksTransition from "@/components/confetti/FireworksTransition";
 import { audioManager } from "@/lib/audio-manager";
+import { scheduleScenePreload } from "@/lib/asset-preloader";
 
 /* Only the first scene ships in the initial bundle; later scenes are
    code-split and fetched on first navigation (masked by the crossfade). */
@@ -60,6 +61,11 @@ export default function SceneController() {
   useEffect(() => {
     audioManager.playGameBgm();
   }, [currentScene]);
+
+  /* Progressive asset preload: current scene + one scene ahead, queued in
+     browser idle time so rendering never waits on downloads and distant
+     scenes are not fetched early. Deduped by the preloader. */
+  useEffect(() => scheduleScenePreload(currentSceneIndex), [currentSceneIndex]);
 
   /* Auto-cleanup: the overlay always unmounts, even if the user sprints to
      the next scene mid-effect (the key remount replaces it cleanly). */

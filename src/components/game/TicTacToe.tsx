@@ -5,6 +5,11 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import type { Board, GameResult } from "@/types";
+import {
+  OPPONENT_MOVE_IMAGES,
+  WIN_IMAGE,
+  randomImageUrl,
+} from "@/content/game-assets";
 import BouncyButton from "@/components/shared/BouncyButton";
 import OverlayCard from "@/components/shared/OverlayCard";
 import FloatingDoodles from "@/components/shared/FloatingDoodles";
@@ -42,24 +47,6 @@ function getRandomMove(board: Board): number | null {
   if (emptyCells.length === 0) return null;
 
   return emptyCells[Math.floor(Math.random() * emptyCells.length)];
-}
-
-/* Verified local assets in public/images/random/ (URL-safe names).
-   All assets are pre-optimized WebP (GIFs re-encoded as animated WebP to
-   keep their animation) and served unoptimized - game state stays "X"/"O". */
-const OPPONENT_MOVE_IMAGES = [
-  "o.webp",
-  "1109081845759492281.webp",
-  "945052303040563947.webp",
-  "suzumiya-haruhi.webp",
-  "nailong-gif-2.webp",
-  "nailong-yellow-dragon-1.webp",
-  "nailong-yellow-dragon-5.webp",
-];
-const WIN_IMAGE = "won.webp";
-
-function randomImageUrl(fileName: string): string {
-  return `/images/random/${fileName}`;
 }
 
 function pickRandomImage(): string {
