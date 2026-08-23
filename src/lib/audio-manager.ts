@@ -79,6 +79,20 @@ class AudioManager {
     this.emit();
   }
 
+  /* Restart button on the final scene: stop every channel, rewind the
+     chiptune BGM and resume it so step 1 sounds fresh again. Runs inside
+     the click gesture, so playback passes the autoplay policy directly. */
+  restartFlow(): void {
+    if (typeof window === "undefined") return;
+    this.disarmGestureRetry();
+    this.pauseAll();
+    this.phase = "game";
+    const el = this.ensureGameBgm();
+    el.currentTime = 0;
+    el.play().catch(() => {});
+    this.emit();
+  }
+
   toggle(): void {
     if (this.isPlaying()) {
       this.pauseAll();
@@ -113,6 +127,7 @@ class AudioManager {
     this.phase = "main";
     if (!this.mainBgm) {
       this.mainBgm = this.createElement(MAIN_BGM_SRC, 0.5, true);
+      this.armLoopFallback(this.mainBgm, "main");
     }
     this.mainBgm.currentTime = 0;
     this.mainBgm.play().catch(() => {});
@@ -124,8 +139,21 @@ class AudioManager {
   private ensureGameBgm(): HTMLAudioElement {
     if (!this.gameBgm) {
       this.gameBgm = this.createElement(GAME_BGM_SRC, 0.4, true);
+      this.armLoopFallback(this.gameBgm, "game");
     }
     return this.gameBgm;
+  }
+
+  /* Safety net for browsers that ignore the loop flag: when a looping BGM
+     track ends while its phase is still active, restart it from zero.
+     With working loop=true the ended event never fires, so this stays
+     dormant and costs nothing. */
+  private armLoopFallback(el: HTMLAudioElement, phase: AudioPhase): void {
+    el.onended = () => {
+      if (this.phase !== phase || !el.paused) return;
+      el.currentTime = 0;
+      el.play().catch(() => {});
+    };
   }
 
   /* Retries playback on the first user gesture, then removes itself. */

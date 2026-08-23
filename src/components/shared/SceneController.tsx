@@ -21,7 +21,7 @@ const WishScene = dynamic(() => import("@/components/wish/WishScene"));
 
 const sceneComponents: Record<
   BirthdayScene,
-  React.ComponentType<{ onComplete: () => void }>
+  React.ComponentType<{ onComplete: () => void; onRestart?: () => void }>
 > = {
   game: TicTacToe,
   birthday: BirthdayReveal,
@@ -55,6 +55,14 @@ export default function SceneController() {
       setCurrentSceneIndex((prev) => prev + 1);
     }
   }, [currentSceneIndex]);
+
+  /* Restart button on the final scene: rewind the audio manager to its
+     step-1 phase (the manager would otherwise stay stuck on "main") and
+     remount the flow from the game. */
+  const goToStart = useCallback(() => {
+    audioManager.restartFlow();
+    setCurrentSceneIndex(0);
+  }, []);
 
   /* Step 1 chiptune BGM; starts on the first user gesture via the manager.
      Idempotent - the manager ignores repeat calls once a phase is active. */
@@ -119,7 +127,10 @@ export default function SceneController() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <SceneComponent onComplete={goNext} />
+          <SceneComponent
+            onComplete={goNext}
+            onRestart={currentScene === "my-wish" ? goToStart : undefined}
+          />
         </motion.div>
       </AnimatePresence>
 

@@ -17,6 +17,7 @@ import { memories } from "@/content/memories";
 import {
   OPPONENT_MOVE_IMAGES,
   WIN_IMAGE,
+  WISH_DOODLE_IMAGES,
   randomImageUrl,
 } from "@/content/game-assets";
 import { SCENE_ORDER, type BirthdayScene } from "@/types";
@@ -50,7 +51,10 @@ const SCENE_ASSETS: Record<
     images: journeyItems.flatMap((item) => item.images),
     audio: [],
   },
-  "my-wish": { images: [], audio: [] },
+  "my-wish": {
+    images: WISH_DOODLE_IMAGES.map(randomImageUrl),
+    audio: [],
+  },
 };
 
 /* ------------------------------- Registries ------------------------------- */

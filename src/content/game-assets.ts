@@ -15,6 +15,19 @@ export const OPPONENT_MOVE_IMAGES = [
 ];
 export const WIN_IMAGE = "won.webp";
 
+/* Lightweight static stickers reused as wish-scene background doodles.
+   The heavy animated WebP files stay exclusive to the game board so the
+   final scene stays cheap to load on mobile data. */
+export const WISH_DOODLE_IMAGES = [
+  "o.webp",
+  "1109081845759492281.webp",
+  "945052303040563947.webp",
+  "suzumiya-haruhi.webp",
+  "nailong-yellow-dragon-1.webp",
+  "nailong-yellow-dragon-5.webp",
+  "won.webp",
+];
+
 export function randomImageUrl(fileName: string): string {
   return `/images/random/${fileName}`;
 }

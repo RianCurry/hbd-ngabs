@@ -2,12 +2,12 @@ import type { JourneyItem } from "@/types";
 
 /* Step 4: period label + keyword-named photos only (no title/description).
    Photos come from public/images/gallery/ (committed since e236c8c):
-   - SMP-era photos represent the MTS period (same school level)
+   - SMP-era photos represent the "anak kecik" period
    - college2.jpg completes the KULIAH period
    - remaining unused photos (candleN,M.jpg variants) form the GALLERY */
 export const journeyItems: JourneyItem[] = [
   {
-    period: "MTS",
+    period: "anak kecik",
     title: "",
     description: "",
     images: ["smp1.jpg", "smp2.jpg"].map(
@@ -15,7 +15,7 @@ export const journeyItems: JourneyItem[] = [
     ),
   },
   {
-    period: "SMK/SMA",
+    period: "SMK",
     title: "",
     description: "",
     images: ["smk1.webp", "smk2.webp", "smk3.webp"].map(
