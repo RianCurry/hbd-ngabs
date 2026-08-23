@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Step 3: Cake and Candles</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;800&amp;family=Quicksand:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container-highest": "#e7e2d9",
+                "surface-dim": "#dfd9d1",
+                "inverse-on-surface": "#f6f0e7",
+                "on-secondary-container": "#715d00",
+                "error-container": "#ffdad6",
+                "tertiary": "#006a69",
+                "on-primary": "#ffffff",
+                "on-primary-fixed-variant": "#842415",
+                "on-tertiary-fixed": "#002020",
+                "tertiary-fixed": "#93f2f1",
+                "primary-container": "#ff7e67",
+                "surface-container-low": "#f9f3ea",
+                "surface-tint": "#a53b29",
+                "error": "#ba1a1a",
+                "outline": "#8b716d",
+                "surface-container-lowest": "#ffffff",
+                "inverse-surface": "#32302a",
+                "on-background": "#1d1b16",
+                "secondary": "#705d00",
+                "on-primary-fixed": "#3f0300",
+                "on-secondary-fixed-variant": "#554500",
+                "surface-bright": "#fff9f0",
+                "surface-variant": "#e7e2d9",
+                "primary": "#a53b29",
+                "on-surface": "#1d1b16",
+                "on-tertiary": "#ffffff",
+                "on-error": "#ffffff",
+                "on-primary-container": "#731709",
+                "outline-variant": "#dec0ba",
+                "on-surface-variant": "#57423e",
+                "tertiary-container": "#51b3b2",
+                "surface-container": "#f3ede4",
+                "surface-container-high": "#ede7df",
+                "tertiary-fixed-dim": "#76d6d5",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#00504f",
+                "surface": "#fff9f0",
+                "on-secondary": "#ffffff",
+                "primary-fixed": "#ffdad4",
+                "secondary-fixed": "#ffe173",
+                "inverse-primary": "#ffb4a6",
+                "on-secondary-fixed": "#221b00",
+                "secondary-container": "#fdd73b",
+                "on-tertiary-container": "#004241",
+                "primary-fixed-dim": "#ffb4a6",
+                "background": "#fff9f0",
+                "secondary-fixed-dim": "#e8c426"
+        },
+        "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "unit": "8px",
+                "container-padding": "24px",
+                "stack-gap-lg": "40px",
+                "stack-gap-md": "24px",
+                "section-margin": "64px",
+                "stack-gap-sm": "12px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Bricolage Grotesque"
+                ],
+                "label-caps": [
+                        "Quicksand"
+                ],
+                "display-mobile": [
+                        "Bricolage Grotesque"
+                ],
+                "body-md": [
+                        "Quicksand"
+                ],
+                "display-lg": [
+                        "Bricolage Grotesque"
+                ],
+                "body-lg": [
+                        "Quicksand"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "28px",
+                        {
+                                "lineHeight": "34px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.1em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "display-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "52px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        /* Custom Styles & Animations */
+        body {
+            background-color: theme('colors.background');
+            background-image: radial-gradient(circle at 50% 50%, rgba(253, 215, 59, 0.1) 0%, transparent 60%);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .bouncy-pill {
+            box-shadow: 0 4px 0 theme('colors.on-primary-container');
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bouncy-pill:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 2px 0 theme('colors.on-primary-container');
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-5deg); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .floating-motif {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .floating-motif-reverse {
+            animation: float-reverse 5s ease-in-out infinite;
+        }
+
+        .snap-card {
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        .shimmer-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .candle-flame {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            z-index: 30;
+            transition: all 0.2s ease;
+        }
+        
+        .candle-flame.unlit {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        .candle-flame::before {
+            content: 'local_fire_department';
+            font-family: 'Material Symbols Outlined';
+            font-variation-settings: 'FILL' 1;
+            color: theme('colors.secondary-fixed');
+            font-size: 24px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            filter: drop-shadow(0 0 4px theme('colors.primary-container'));
+            animation: flicker 0.3s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+            100% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+        }
+
+        @keyframes puff {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -100%) scale(2); opacity: 0; }
+        }
+
+        .smoke-puff {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: puff 0.6s ease-out forwards;
+            z-index: 31;
+        }
+        
+        .milestone-toast {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .milestone-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dinosaur Blowing Animation */
+        @keyframes blow-wind {
+            0% { transform: translateX(0) scale(0.8); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateX(-20px) scale(1.2); opacity: 0; }
+        }
+        .dino-wind {
+            animation: blow-wind 2s infinite ease-out;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="text-on-background min-h-screen flex flex-col items-center relative overflow-x-hidden">
+<!-- Background Decorative Elements -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<span class="material-symbols-outlined absolute top-32 left-8 text-secondary-container opacity-50 floating-motif" style="font-size: 24px;">star</span>
+<span class="material-symbols-outlined absolute top-40 right-10 text-primary-container opacity-40 floating-motif-reverse" style="font-size: 32px;">favorite</span>
+<span class="material-symbols-outlined absolute bottom-1/4 left-12 text-tertiary-container opacity-30 floating-motif" style="font-size: 20px;">star</span>
+</div>
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background dark:bg-on-background flex flex-col px-container-padding py-unit max-w-[480px] mx-auto z-40">
+<div class="flex items-center justify-between w-full mb-2">
+<button class="text-outline dark:text-outline-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>celebration</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-center text-primary dark:text-primary-fixed-dim font-bold flex-1 mx-4">
+                Step 3 of 9
+            </h1>
+<button class="text-outline dark:text-outline-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<!-- Progress Indicator -->
+<div class="flex justify-center gap-2 mt-1">
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_rgba(255,126,103,0.5)]"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 w-full max-w-[480px] px-container-padding flex flex-col justify-center items-center z-10 relative py-2 min-h-screen">
+<!-- Instruction Text -->
+<div class="text-center snap-card opacity-0 mb-2" style="animation-delay: 0.1s;">
+<h2 class="font-display-mobile text-display-mobile text-on-surface mb-2" id="instruction-title">Tiup seluruh lilinya!</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant flex items-center justify-center gap-2" id="instruction-desc">
+                Pelan-pelan ya... <span class="text-primary-container">❤️</span>
+</p>
+</div>
+<!-- Milestone Toast Container -->
+<div class="min-h-[40px] w-full flex justify-center mb-4 snap-card opacity-0" style="animation-delay: 0.15s;">
+<div class="milestone-toast bg-secondary-container text-on-secondary-container font-body-md px-6 py-2 rounded-full shadow-sm text-center" id="milestone-message">
+<!-- Message inserted here -->
+</div>
+</div>
+<!-- Custom Cake Container -->
+<div class="bg-surface-container-lowest dark:bg-surface-container rounded-[2rem] p-4 shadow-sm border border-outline-variant/30 w-full snap-card opacity-0 mb-4" style="animation-delay: 0.2s;">
+<div class="relative w-full aspect-[4/3] flex justify-center max-w-full" data-interaction-ready="true" id="cake-container"><!-- Soft glow behind cake -->
+<div class="absolute inset-0 bg-secondary-container/20 rounded-full blur-3xl scale-110"></div>
+<!-- SVG Cake -->
+<svg class="w-full h-auto relative z-10" preserveaspectratio="xMidYMax meet" viewbox="0 30 320 250">
+<!-- Plate -->
+<ellipse cx="160" cy="270" fill="#f6f0e7" rx="140" ry="25" stroke="#dec0ba" stroke-width="4"></ellipse>
+<ellipse cx="160" cy="275" fill="#fff9f0" rx="130" ry="20"></ellipse>
+<!-- Bottom Tier Cake -->
+<rect fill="#fca5a5" height="90" rx="10" width="220" x="50" y="170"></rect>
+<rect fill="#fff" height="15" width="220" x="50" y="190"></rect>
+<rect fill="#fff" height="15" width="220" x="50" y="225"></rect>
+<!-- Bottom Tier Chocolate Drip -->
+<path d="M 45 170 C 45 160, 275 160, 275 170 C 275 180, 265 195, 255 190 C 245 185, 240 175, 230 175 C 220 175, 215 195, 205 195 C 195 195, 190 180, 180 180 C 170 180, 165 200, 155 195 C 145 190, 140 175, 130 175 C 120 175, 115 190, 105 190 C 95 190, 90 175, 80 175 C 70 175, 65 195, 55 190 C 45 185, 45 170, 45 170 Z" fill="#5c3a21"></path>
+<ellipse cx="160" cy="170" fill="#6e4528" rx="115" ry="15"></ellipse>
+<!-- Top Tier Cake -->
+<rect fill="#fca5a5" height="70" rx="8" width="160" x="80" y="100"></rect>
+<rect fill="#fff" height="12" width="160" x="80" y="120"></rect>
+<rect fill="#fff" height="12" width="160" x="80" y="145"></rect>
+<!-- Top Tier Chocolate Drip -->
+<path d="M 75 100 C 75 90, 245 90, 245 100 C 245 110, 235 125, 225 120 C 215 115, 210 105, 200 105 C 190 105, 185 120, 175 120 C 165 120, 160 105, 150 105 C 140 105, 135 125, 125 120 C 115 115, 110 105, 100 105 C 90 105, 85 120, 75 115 C 65 110, 75 100, 75 100 Z" fill="#5c3a21"></path>
+<ellipse cx="160" cy="100" fill="#6e4528" rx="85" ry="12"></ellipse>
+<!-- Candles SVG Bases -->
+<g stroke="#333" stroke-width="1.5">
+<rect fill="#93f2f1" height="35" rx="2" width="8" x="95" y="60"></rect>
+<rect fill="#ffb4a6" height="48" rx="2" width="8" x="115" y="45"></rect>
+<rect fill="#ffe173" height="38" rx="2" width="8" x="135" y="55"></rect>
+<rect fill="#ffb4a6" height="52" rx="2" width="8" x="155" y="40"></rect>
+<rect fill="#93f2f1" height="38" rx="2" width="8" x="175" y="55"></rect>
+<rect fill="#ffe173" height="45" rx="2" width="8" x="195" y="48"></rect>
+<rect fill="#ffb4a6" height="28" rx="2" width="8" x="215" y="65"></rect>
+<rect fill="#ffb4a6" height="35" rx="2" width="8" x="65" y="130"></rect>
+<rect fill="#93f2f1" height="30" rx="2" width="8" x="85" y="145"></rect>
+<rect fill="#ffe173" height="32" rx="2" width="8" x="110" y="135"></rect>
+<rect fill="#ffb4a6" height="25" rx="2" width="8" x="135" y="150"></rect>
+<rect fill="#93f2f1" height="35" rx="2" width="8" x="160" y="135"></rect>
+<rect fill="#ffe173" height="28" rx="2" width="8" x="185" y="145"></rect>
+<rect fill="#ffb4a6" height="35" rx="2" width="8" x="205" y="130"></rect>
+<rect fill="#93f2f1" height="32" rx="2" width="8" x="230" y="140"></rect>
+<rect fill="#ffb4a6" height="40" rx="2" width="8" x="250" y="125"></rect>
+<rect fill="#ffe173" height="30" rx="2" width="8" x="60" y="190"></rect>
+<rect fill="#93f2f1" height="28" rx="2" width="8" x="100" y="200"></rect>
+<rect fill="#ffb4a6" height="35" rx="2" width="8" x="145" y="195"></rect>
+<rect fill="#ffe173" height="25" rx="2" width="8" x="195" y="205"></rect>
+<rect fill="#93f2f1" height="32" rx="2" width="8" x="245" y="190"></rect>
+</g>
+</svg>
+<div class="candle-flame" style="left: 30.9%; top: 8.5%;"></div><div class="candle-flame" style="left: 37.2%; top: 2.5%;"></div><div class="candle-flame" style="left: 43.4%; top: 6.5%;"></div><div class="candle-flame" style="left: 49.7%; top: 0.5%;"></div><div class="candle-flame" style="left: 55.9%; top: 6.5%;"></div><div class="candle-flame" style="left: 62.2%; top: 3.5%;"></div><div class="candle-flame" style="left: 68.4%; top: 10.5%;"></div><div class="candle-flame" style="left: 21.5%; top: 36.5%;"></div><div class="candle-flame" style="left: 27.8%; top: 42.5%;"></div><div class="candle-flame" style="left: 35.6%; top: 38.5%;"></div><div class="candle-flame" style="left: 43.4%; top: 44.5%;"></div><div class="candle-flame" style="left: 51.2%; top: 38.5%;"></div><div class="candle-flame" style="left: 59.1%; top: 42.5%;"></div><div class="candle-flame" style="left: 65.3%; top: 36.5%;"></div><div class="candle-flame" style="left: 73.1%; top: 40.5%;"></div><div class="candle-flame" style="left: 79.4%; top: 34.5%;"></div><div class="candle-flame" style="left: 20%; top: 60.5%;"></div><div class="candle-flame" style="left: 32.5%; top: 64.5%;"></div><div class="candle-flame" style="left: 46.5%; top: 62.5%;"></div><div class="candle-flame" style="left: 62.2%; top: 66.5%;"></div><div class="candle-flame" style="left: 77.8%; top: 60.5%;"></div></div>
+</div>
+<!-- Progress Area -->
+<div class="w-full max-w-[280px] snap-card opacity-0 flex flex-col items-center" style="animation-delay: 0.4s;">
+<div class="text-center mb-4"><span class="font-headline-md text-headline-md text-primary tracking-widest font-bold" id="candle-counter">0 / 21 lilin</span></div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-8 py-3 rounded-full bouncy-pill tracking-widest uppercase hidden" id="next-btn">
+    Lanjutkan
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full rounded-t-lg z-50 bg-surface-container-low dark:bg-surface-container-highest shadow-[0_-4px_20px_0_rgba(255,126,103,0.1)] left-1/2 -translate-x-1/2 max-w-[480px] flex justify-around items-center px-4 pb-8 pt-4">
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant px-4 py-2 opacity-70 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined mb-1">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">The Game</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-full px-6 py-2 transition-all duration-300 transform scale-105 active:translate-y-1 ease-out shadow-[0_4px_15px_rgba(255,126,103,0.3)]">
+<span class="material-symbols-outlined mb-1" style='font-variation-settings: "FILL" 1;'>auto_awesome_motion</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Our Path</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant px-4 py-2 opacity-70 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined mb-1">card_giftcard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Surprise</span>
+</button>
+</nav>
+<!-- Spacer for Bottom Nav on Mobile -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const totalCandles = 21;
+        let unlitCount = 0;
+        
+        const cakeContainer = document.getElementById('cake-container');
+        const counterText = document.getElementById('candle-counter');
+        const nextBtn = document.getElementById('next-btn');
+        const instructionTitle = document.getElementById('instruction-title');
+        const milestoneToast = document.getElementById('milestone-message');
+        
+        // Accurate positions for the 21 flame bases mapped from the SVG
+        // Coordinates represent percentages of the SVG viewport (400x300)
+        // x = (svgX / 320) * 100
+        // y = ((svgY - 30) / 250) * 100
+        const flamePositions = [
+            // Top Tier Candles
+            {x: 30.9, y: 8.5}, 
+            {x: 37.2, y: 2.5}, 
+            {x: 43.4, y: 6.5}, 
+            {x: 49.7, y: 0.5}, 
+            {x: 55.9, y: 6.5}, 
+            {x: 62.2, y: 3.5}, 
+            {x: 68.4, y: 10.5}, 
+            
+            // Middle Tier Candles
+            {x: 21.5, y: 36.5}, 
+            {x: 27.8, y: 42.5}, 
+            {x: 35.6, y: 38.5}, 
+            {x: 43.4, y: 44.5}, 
+            {x: 51.2, y: 38.5}, 
+            {x: 59.1, y: 42.5}, 
+            {x: 65.3, y: 36.5}, 
+            {x: 73.1, y: 40.5}, 
+            {x: 79.4, y: 34.5}, 
+            
+            // Bottom Tier Candles
+            {x: 20.0, y: 60.5}, 
+            {x: 32.5, y: 64.5}, 
+            {x: 46.5, y: 62.5}, 
+            {x: 62.2, y: 66.5}, 
+            {x: 77.8, y: 60.5}  
+        ];
+
+        const milestones = {
+            10: "Umur 10: Awal masa puber & keceriaan!",
+            15: "Umur 15: Semangat baru masuk MTS!",
+            17: "Umur 17: Sweet Seventeen & masa SMK yang seru!",
+            21: "Umur 21: Selamat datang di babak baru yang hebat!"
+        };
+
+        const genericMessages = [
+            "Yey, satu lagi!",
+            "Semangat tiupnya!",
+            "Terus tiup...",
+            "Good job!",
+            "Hampir setengah!"
+        ];
+
+        function showMessage(msg) {
+            milestoneToast.textContent = msg;
+            milestoneToast.classList.add('show');
+            setTimeout(() => {
+                milestoneToast.classList.remove('show');
+            }, 2500);
+        }
+
+        function createPuff(x, y) {
+            const puff = document.createElement('div');
+            puff.className = 'smoke-puff';
+            puff.style.left = `${x}%`;
+            puff.style.top = `${y}%`;
+            cakeContainer.appendChild(puff);
+            setTimeout(() => puff.remove(), 600);
+        }
+
+        function updateProgress() {
+            counterText.textContent = `${unlitCount} / ${totalCandles} lilin`;
+
+            if (milestones[unlitCount]) {
+                showMessage(milestones[unlitCount]);
+            } else if (unlitCount > 0 && unlitCount < 10 && unlitCount % 3 === 0) {
+                 showMessage(genericMessages[Math.floor(Math.random() * genericMessages.length)]);
+            }
+
+            if (unlitCount === totalCandles) {
+                instructionTitle.textContent = "Hore! Berhasil!";
+                instructionTitle.classList.add('text-secondary');
+                nextBtn.classList.remove('hidden');
+                nextBtn.classList.add('flex');
+            }
+        }
+
+        flamePositions.forEach((pos, index) => {
+            if (index >= totalCandles) return;
+            // Select existing flames instead of creating new ones if they are present in HTML, 
+            // but the prompt HTML already has them hardcoded. We need to attach listeners to the existing ones.
+        });
+        
+        // Attach to existing flames
+        const existingFlames = document.querySelectorAll('.candle-flame');
+        existingFlames.forEach((flame, index) => {
+            if(index >= flamePositions.length) return;
+            const pos = flamePositions[index];
+            
+            const extinguish = (e) => {
+                if(e) e.preventDefault();
+                if (!flame.classList.contains('unlit')) {
+                    flame.classList.add('unlit');
+                    createPuff(pos.x, pos.y);
+                    unlitCount++;
+                    updateProgress();
+                }
+            };
+            
+            flame.addEventListener('click', extinguish);
+            flame.addEventListener('touchstart', extinguish);
+        });
+        
+        // Initialize state
+        updateProgress();
+    });
+</script>
+</body></html>

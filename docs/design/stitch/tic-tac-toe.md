@@ -1,0 +1,444 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Step 1 of 9 - The Game</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Quicksand:wght@500;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#3f0300",
+                        "outline": "#8b716d",
+                        "background": "#fff9f0",
+                        "primary-container": "#ff7e67",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#93f2f1",
+                        "surface-dim": "#dfd9d1",
+                        "surface-bright": "#fff9f0",
+                        "primary-fixed": "#ffdad4",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#004241",
+                        "on-secondary-fixed-variant": "#554500",
+                        "on-secondary-fixed": "#221b00",
+                        "on-tertiary-fixed-variant": "#00504f",
+                        "secondary": "#705d00",
+                        "primary-fixed-dim": "#ffb4a6",
+                        "on-primary-fixed-variant": "#842415",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fdd73b",
+                        "surface": "#fff9f0",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1d1b16",
+                        "secondary-fixed": "#ffe173",
+                        "inverse-primary": "#ffb4a6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#715d00",
+                        "surface-container-low": "#f9f3ea",
+                        "surface-tint": "#a53b29",
+                        "secondary-fixed-dim": "#e8c426",
+                        "surface-container-high": "#ede7df",
+                        "tertiary": "#006a69",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#dec0ba",
+                        "surface-container": "#f3ede4",
+                        "on-tertiary-fixed": "#002020",
+                        "surface-variant": "#e7e2d9",
+                        "on-primary-container": "#731709",
+                        "inverse-surface": "#32302a",
+                        "tertiary-fixed-dim": "#76d6d5",
+                        "primary": "#a53b29",
+                        "surface-container-highest": "#e7e2d9",
+                        "on-surface-variant": "#57423e",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f6f0e7",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#51b3b2",
+                        "on-background": "#1d1b16"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap-md": "24px",
+                        "unit": "8px",
+                        "stack-gap-lg": "40px",
+                        "container-padding": "24px",
+                        "section-margin": "64px",
+                        "stack-gap-sm": "12px"
+                    },
+                    "fontFamily": {
+                        "display-mobile": ["Bricolage Grotesque"],
+                        "display-lg": ["Bricolage Grotesque"],
+                        "body-lg": ["Quicksand"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "body-md": ["Quicksand"],
+                        "label-caps": ["Quicksand"]
+                    },
+                    "fontSize": {
+                        "display-mobile": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+                        "display-lg": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-md": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .bouncy-pill {
+            box-shadow: 0 4px 0 0 #a53b29;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bouncy-pill:active:not(:disabled) {
+            transform: translateY(4px) scale(0.98);
+            box-shadow: 0 0px 0 0 #a53b29;
+        }
+        .bouncy-pill:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 0 #a53b29;
+            background-color: theme('colors.surface-variant');
+            color: theme('colors.on-surface-variant');
+        }
+        .floating-doodle {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .pop-in {
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .game-cell {
+            transition: background-color 0.2s;
+        }
+        .game-cell:hover:not(.occupied) {
+            background-color: theme('colors.surface-container-low');
+        }
+        .cell-content {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 800;
+            font-size: 4rem;
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .cell-x { color: theme('colors.primary'); }
+        .cell-o { color: theme('colors.secondary-container'); }
+        
+        /* Soft volume depth for cards */
+        .card-depth {
+            box-shadow: 0 10px 30px -10px rgba(255, 126, 103, 0.15);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden relative" data-mode="connect">
+<!-- Floating Background Elements -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
+<span class="material-symbols-outlined floating-doodle absolute top-32 left-8 text-secondary-container" style="font-size: 40px; animation-delay: 0s;">star</span>
+<span class="material-symbols-outlined floating-doodle absolute top-1/4 right-12 text-primary-fixed-dim" style="font-size: 32px; animation-delay: 1s;">favorite</span>
+<span class="material-symbols-outlined floating-doodle absolute bottom-1/3 left-16 text-tertiary-container" style="font-size: 48px; animation-delay: 2s;">change_history</span>
+</div>
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-background flex items-center justify-between px-container-padding py-unit max-w-[480px] mx-auto flat no shadows">
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:opacity-80 transition-opacity text-primary font-bold active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="celebration" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</button>
+<div class="flex-1 flex flex-col items-center">
+<h1 class="font-headline-md text-headline-md text-center text-primary font-bold">Step 1 of 9</h1>
+<!-- Progress Indicator Path -->
+<div class="flex gap-1 mt-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+</div>
+</div>
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:opacity-80 transition-opacity text-outline active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[480px] mx-auto px-container-padding flex flex-col items-center justify-center relative z-10 py-8 mb-24">
+<!-- Header Section -->
+<div class="text-center mb-4 pop-in" style="animation-delay: 0.1s;">
+<h2 class="font-display-mobile text-display-mobile text-on-surface mb-2">Let's start with a game!</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Beat Nailong to see your surprise. You're 'X'!</p>
+</div>
+<!-- Nailong Reaction Area (used for thinking) -->
+<div class="h-32 w-full flex flex-col items-center justify-center mb-4 pop-in" id="reaction-area" style="animation-delay: 0.15s;">
+<img alt="Nailong Reaction" class="h-24 w-24 object-contain hidden rounded-2xl shadow-sm border-4 border-surface-variant" id="nailong-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgcng9IjgiIGZpbGw9IiNlOGVhZWQiLz48cGF0aCBkPSJNMTcwIDEzMCBsMzAgNDAgbDIwLTE1IGw0MCA1NSBIMTQweiIgZmlsbD0iI2JkYzFjNiIvPjxjaXJjbGUgY3g9IjI1MCIgY3k9IjEyMCIgcj0iMTgiIGZpbGw9IiNiZGMxYzYiLz48L3N2Zz4=">
+<p class="mt-2 text-center font-headline-md text-headline-md text-primary hidden" id="game-status"></p>
+</div>
+<!-- Tic-Tac-Toe Card -->
+<div class="bg-surface-lowest rounded-[32px] border border-primary-fixed-dim card-depth p-6 w-full max-w-[300px] mx-auto pop-in bg-white" style="animation-delay: 0.2s;">
+<div class="grid grid-cols-3 gap-2 w-full aspect-square bg-surface-variant rounded-2xl p-2" id="tic-tac-toe-grid">
+<!-- Grid Cells -->
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="0"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="1"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="2"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="3"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="4"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="5"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="6"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="7"></button>
+<button class="game-cell aspect-square bg-white rounded-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary-container" data-index="8"></button>
+</div>
+</div>
+<!-- Action Button -->
+<div class="mt-stack-gap-lg w-full max-w-[300px] pop-in flex gap-4 mx-auto" style="animation-delay: 0.4s;">
+<button class="bouncy-pill flex-1 bg-surface-variant text-on-surface-variant font-headline-md text-headline-md py-4 rounded-full flex items-center justify-center gap-2 hidden" id="replay-button">
+<span class="material-symbols-outlined font-bold">refresh</span>
+<span>Coba Lagi</span>
+</button>
+<button class="bouncy-pill flex-1 bg-primary-container text-white font-headline-md text-headline-md py-4 rounded-full flex items-center justify-center gap-2 hidden" disabled="" id="next-button">
+<span>Continue</span>
+<span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] flex justify-around items-center px-4 pb-8 pt-4 bg-surface-container-low shadow-[0_-4px_20px_0_rgba(255,126,103,0.1)] rounded-t-lg z-50 md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 transition-all duration-300 transform scale-105 active:translate-y-1 transition-all duration-200 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">The Game</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline px-4 py-2 opacity-70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Our Path</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline px-4 py-2 opacity-70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="card_giftcard">card_giftcard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Surprise</span>
+</a>
+</nav>
+<!-- Thinking Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden" id="thinking-overlay">
+<div class="bg-surface-bright rounded-[32px] p-6 max-w-[320px] w-[90%] mx-auto card-depth flex flex-col items-center relative overflow-hidden pop-in border-4 border-white shadow-2xl">
+<h3 class="font-headline-md text-headline-md text-primary text-center mb-4 mt-2 z-10">Nailong is thinking...</h3>
+<div class="bg-surface-variant rounded-2xl p-2 mb-6 w-full flex justify-center z-10">
+<img alt="Thinking" class="w-48 h-48 object-cover rounded-xl shadow-inner" id="thinking-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgcng9IjgiIGZpbGw9IiNlOGVhZWQiLz48cGF0aCBkPSJNMTcwIDEzMCBsMzAgNDAgbDIwLTE1IGw0MCA1NSBIMTQweiIgZmlsbD0iI2JkYzFjNiIvPjxjaXJjbGUgY3g9IjI1MCIgY3k9IjEyMCIgcj0iMTgiIGZpbGw9IiNiZGMxYzYiLz48L3N2Zz4=">
+</div>
+</div>
+</div>
+<!-- Game Modal -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden" id="game-modal">
+<div class="bg-surface-bright rounded-[32px] p-6 max-w-[320px] w-[90%] mx-auto card-depth flex flex-col items-center relative overflow-hidden pop-in border-4 border-white shadow-2xl">
+<!-- Decorative stars -->
+<span class="material-symbols-outlined absolute top-4 left-4 text-secondary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="material-symbols-outlined absolute top-6 right-6 text-primary-fixed-dim text-2xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="font-headline-md text-headline-md text-primary text-center mb-4 mt-2 z-10" id="modal-title">HASILNYA SERI!</h3>
+<div class="bg-surface-variant rounded-2xl p-2 mb-6 w-full flex justify-center z-10">
+<img alt="Game Result" class="w-48 h-48 object-cover rounded-xl shadow-inner" id="modal-image" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgcng9IjgiIGZpbGw9IiNlOGVhZWQiLz48cGF0aCBkPSJNMTcwIDEzMCBsMzAgNDAgbDIwLTE1IGw0MCA1NSBIMTQweiIgZmlsbD0iI2JkYzFjNiIvPjxjaXJjbGUgY3g9IjI1MCIgY3k9IjEyMCIgcj0iMTgiIGZpbGw9IiNiZGMxYzYiLz48L3N2Zz4=">
+</div>
+<button class="bouncy-pill bg-primary-container text-white font-headline-md text-headline-md py-3 px-8 rounded-full flex items-center justify-center w-full z-10" id="modal-action">
+            Coba Lagi
+        </button>
+</div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cells = document.querySelectorAll('.game-cell');
+            const nextButton = document.getElementById('next-button');
+            const replayButton = document.getElementById('replay-button');
+            const statusDiv = document.getElementById('game-status');
+            
+            const gameModal = document.getElementById('game-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalImage = document.getElementById('modal-image');
+            const modalAction = document.getElementById('modal-action');
+            
+            const thinkingOverlay = document.getElementById('thinking-overlay');
+            const thinkingImg = document.getElementById('thinking-img');
+            
+            const thinkingImages = [
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuBAuk7DGjReIiiMI54Qc4wgqGFOnHpxSvU6owwy03VcHnkoluGl3NsW7D4b1ZRlLKpFTsO_gyh52j1uq4wiDQZGZinU3QKHDUcdG8Hs9B7Eyyq0pn8rdUbOEM8MttcLfxodrmqHIZzFbqJrMR5Sg-dxGfJbxDLG65U2xL-fxv1UVi3V-ntYTWHWsrLLBU5HGH7xXIOVYpUU26sd2Cl_in7gJXqUAv_aysKEDqdNa0M8HGRE6DjvoZTHNboUy15bX_EQDg',
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuCILHHTIBRlXqc0QOvVUmDeDsoIxD_bvIcHXdxG7woUSpEe1w3gBeEROfUWzmpHO8XHQPSIHV47brxGjQ0E5vzACSXl6KvJb2Xlzkb-ykW3NybZAlQLx_wToy0QisoBjfvP9RFzLLcNhu5XAHXSZP29Gx3kwhimB713WM5NMnaI-SGX2uGLx6pFtJlEfYicKO6H0mAv3nnKUuYv4MnKr6e1AtDXjw8u3j7dVKShYmWdf3B960tP4_XMyj85aiikP4h1ng',
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuC5uLT7OBZDKOxKC6QXNn-TiBfBzG3Hp_O0WNH50gq00rHQBHgTwJ85MLYURd47uPTjHSv-Orp7quFQElHwuKYjmnvf0vXYxofZH2o7UvLH_baQ5UHQPK_2ARL9EY_YLrMJfRH-w7SNxHsqMAz5Fip5bQVRAnYDumslBQo9_02yBFZXnQ2aAES7FLfQZ3BrED5xzqE9atwbUle-Pzf0_3eQpmeYa9yrf5vF35q-i1hyHD0TMIFj2UoRxlTL64iDwz2MIw',
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuCt-RnM8e5o1LTtJIeW4ih2LGrqGNiL3uvVuib1W7asgpGo0rUmvfGggyklNKQtmz9GGdJrXNSwKQs-K9kji5A_L2dFSef9fpxUwIEQ87EX5P4yezfT35J7OXHwYb8AVk3JTjxmZDEKhI4j6-8V1TdTCGp0c1rPJ4e8cpIlmUhjY2TTQGNPxEarG8XcCvlFN-qLjpuI4600mcVM-GUN_Xk--WC4hp33Nf62j4mM3ZoU__LLoGSlt7yHmnApr2i3KKInyQ',
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuA--0vwKawQaluN6m36Zzs_8nUv6mr4MX655-965nIvoDxFxx0-I6mPS0_nNhS3vLez6aS0XYRPngC8Bu0DPyZ0R5XBo35WlvPS4HLsSBjYtKd4IEuyulls77dNgVn3T3OqgLoCSy1cTgGpJv6Zf-nvlpDgrblmfILxpLMnsUYxkLC5IRCmT_uwAPpaVJxxnU8rt_GReYw2b4XIZwLoLzPZzEAiGErGUxubMXz04Jeil5Idkh8i9-TPn1TMjs1U41_nwA'
+            ];
+            
+            let board = ['', '', '', '', '', '', '', '', ''];
+            let gameActive = true;
+            let currentResult = '';
+            
+            const winningConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            function handleCellClick(e) {
+                const cell = e.target.closest('.game-cell');
+                const index = parseInt(cell.getAttribute('data-index'));
+
+                if (board[index] !== '' || !gameActive) return;
+
+                // User Move (X)
+                board[index] = 'X';
+                cell.classList.add('occupied');
+                cell.innerHTML = '<span class="cell-content cell-x">X</span>';
+
+                if (checkWin('X')) {
+                    endGame("win");
+                    return;
+                }
+                
+                if (board.indexOf('') === -1) {
+                    endGame("draw");
+                    return;
+                }
+
+                // AI Move (O) - Nailong thinking
+                gameActive = false; // Pause user input
+                showThinking();
+
+                setTimeout(() => {
+                    hideThinking();
+                    const emptyIndices = board.map((val, idx) => val === '' ? idx : null).filter(val => val !== null);
+                    if (emptyIndices.length > 0) {
+                        const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+                        board[randomIndex] = 'O';
+                        const aiCell = document.querySelector(`.game-cell[data-index="${randomIndex}"]`);
+                        aiCell.classList.add('occupied');
+                        aiCell.innerHTML = '<span class="cell-content cell-o">O</span>';
+                        
+                        if (checkWin('O')) {
+                            endGame("loss");
+                        } else if (board.indexOf('') === -1) {
+                            endGame("draw");
+                        } else {
+                            gameActive = true;
+                        }
+                    }
+                }, 1000); // 1 second thinking time
+            }
+
+            function checkWin(player) {
+                return winningConditions.some(condition => {
+                    return condition.every(index => board[index] === player);
+                });
+            }
+
+            function showThinking() {
+                const randomImage = thinkingImages[Math.floor(Math.random() * thinkingImages.length)];
+                thinkingImg.src = randomImage;
+                thinkingOverlay.classList.remove('hidden');
+            }
+
+            function hideThinking() {
+                thinkingOverlay.classList.add('hidden');
+            }
+
+            function endGame(result) {
+                gameActive = false;
+                currentResult = result;
+                hideThinking();
+                
+                setTimeout(() => {
+                    if (result === 'win') {
+                        modalTitle.textContent = "KAMU MENANG!";
+                        modalImage.src = "https://lh3.googleusercontent.com/aida-public/AB6AXuDMVwakYwbDv8tucGyWObDc4m9kUjzUFDZS1pHtek5wc4JcZBBX-uPnMEZX3sNEjcq2d-Tn7c4Zt-XT4s3Y_rLqjaPS_XuIJjq-OuBZo6H1EGLxny15cgukkkv9SAirYCdP499CzbCTSOLcErb4GmI7hvQ4gwMjaG9mx07_vVqSXQlXnyJE9TTFwlWbz8RNs6xmA-U3SHPYDiSAFJtbgWeWDvAdYPQ_QN4FTj9XWDtNzBt379R0KGAGf3_LmA6c_1Ue4A";
+                        modalAction.textContent = "Lanjutkan";
+                        triggerConfetti();
+                    } else if (result === 'loss') {
+                        modalTitle.textContent = "YAH, KAMU KALAH...";
+                        modalImage.src = "https://lh3.googleusercontent.com/aida-public/AB6AXuBIULca9KCzQHAyyQXQNIAklldlK6Mes87vFdjeP94w5AaZXXLIomKzPEm_kDl3kMetXwifu-0QO7W7NVhxd9_SKIqzHW-Z8PnJfhb2qVF0Ezo7scuwxn_d0soBdfCuZywk3zEsO_ZY_yjkSbAFqoXeKh2EBMN2Ce8g5eXo2rXXurAA83MHLX2yuOiu72WOwGc9n4YZM44c4Ae_ElDKqJZwXfyAMt1ByhXjsRKemYwLdwMvTS7iN_Zc2NafuPE26L3sxA";
+                        modalAction.textContent = "Coba Lagi";
+                    } else if (result === 'draw') {
+                        modalTitle.textContent = "HASILNYA SERI!";
+                        modalImage.src = "https://lh3.googleusercontent.com/aida-public/AB6AXuCovDp6-AV4lwpjnBLNpEZPD9GpsDKPyR2VGgX79FUwTFksH2E-njVdlIOL1wX_woGYRUQ8CUtxJHVxJr4uKrM0b4qSReEZdmFgX0TLUVVj6qJZY9irR_jVyuVEYM0rIZWj-JZIEmOvnDNpWPGQCrST4aa7i32TXegOXw3KkNcX2BatYPd3hTzP5x8agRoshK0GxrHS8hiAY8DuPN6ESoyycTh490GQvZlNiE0L_TQNCQmf0Rmz__EjhPN2xQx4JuVG4Q";
+                        modalAction.textContent = "Coba Lagi";
+                    }
+                    
+                    gameModal.classList.remove('hidden');
+                }, 500); // Small delay to let the last move render
+            }
+            
+            function resetGame() {
+                board = ['', '', '', '', '', '', '', '', ''];
+                gameActive = true;
+                currentResult = '';
+                
+                gameModal.classList.add('hidden');
+                hideThinking();
+                
+                cells.forEach(cell => {
+                    cell.innerHTML = '';
+                    cell.classList.remove('occupied');
+                });
+                
+                // Keep continue button hidden on main screen as requested ideally handled by modal
+                nextButton.classList.add('hidden');
+                replayButton.classList.add('hidden');
+            }
+
+            modalAction.addEventListener('click', () => {
+                if (currentResult === 'win') {
+                    window.location.href = '{{DATA:SCREEN:SCREEN_24}}';
+                } else {
+                    resetGame();
+                }
+            });
+
+            function triggerConfetti() {
+                for(let i=0; i<30; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('material-symbols-outlined', 'absolute', 'text-secondary-container', 'z-[70]');
+                    confetti.textContent = ['star', 'favorite', 'celebration'][Math.floor(Math.random()*3)];
+                    confetti.style.left = '50%';
+                    confetti.style.top = '30%';
+                    confetti.style.fontSize = (Math.random() * 24 + 12) + 'px';
+                    confetti.style.transition = 'all 1.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                    confetti.style.color = ['#ff7e67', '#fdd73b', '#51b3b2', '#a53b29'][Math.floor(Math.random()*4)];
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        const tx = (Math.random()-0.5)*500;
+                        const ty = (Math.random()-0.5)*500;
+                        confetti.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random()*720}deg) scale(${Math.random() + 0.5})`;
+                        confetti.style.opacity = '0';
+                    }, 50);
+                    
+                    setTimeout(() => confetti.remove(), 1550);
+                }
+            }
+
+            cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+            replayButton.addEventListener('click', resetGame);
+            
+            // Allow Next button on main screen to navigate if shown
+            nextButton.addEventListener('click', () => {
+                 window.location.href = '{{DATA:SCREEN:SCREEN_24}}';
+            });
+        });
+    </script>
+</body></html>

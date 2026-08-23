@@ -1,0 +1,356 @@
+<!DOCTYPE html><html lang="en" style=""><head></head><body class="font-body-md text-on-background bg-background antialiased min-h-screen flex flex-col items-center overflow-x-hidden relative"><svg aria-hidden="true" class="inline-defs-container" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Step 2 of 9 - Happy Birthday</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Quicksand:wght@500;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-primary-fixed": "#3f0300",
+                "on-secondary-fixed-variant": "#554500",
+                "tertiary": "#006a69",
+                "on-surface-variant": "#57423e",
+                "on-tertiary": "#ffffff",
+                "on-error-container": "#93000a",
+                "inverse-on-surface": "#f6f0e7",
+                "primary-container": "#ff7e67",
+                "surface-tint": "#a53b29",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-container": "#731709",
+                "secondary-fixed-dim": "#e8c426",
+                "secondary-container": "#fdd73b",
+                "surface-container": "#f3ede4",
+                "error-container": "#ffdad6",
+                "inverse-primary": "#ffb4a6",
+                "on-tertiary-fixed-variant": "#00504f",
+                "on-tertiary-container": "#004241",
+                "background": "#fff9f0",
+                "on-primary-fixed-variant": "#842415",
+                "surface-bright": "#fff9f0",
+                "on-secondary-fixed": "#221b00",
+                "surface-dim": "#dfd9d1",
+                "tertiary-fixed-dim": "#76d6d5",
+                "error": "#ba1a1a",
+                "tertiary-fixed": "#93f2f1",
+                "on-tertiary-fixed": "#002020",
+                "on-error": "#ffffff",
+                "surface-container-highest": "#e7e2d9",
+                "surface-container-high": "#ede7df",
+                "primary": "#a53b29",
+                "inverse-surface": "#32302a",
+                "on-secondary-container": "#715d00",
+                "outline-variant": "#dec0ba",
+                "on-surface": "#1d1b16",
+                "on-secondary": "#ffffff",
+                "secondary-fixed": "#ffe173",
+                "surface": "#fff9f0",
+                "tertiary-container": "#51b3b2",
+                "secondary": "#705d00",
+                "primary-fixed-dim": "#ffb4a6",
+                "outline": "#8b716d",
+                "primary-fixed": "#ffdad4",
+                "surface-container-low": "#f9f3ea",
+                "on-primary": "#ffffff",
+                "surface-variant": "#e7e2d9",
+                "on-background": "#1d1b16"
+        },
+        "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "unit": "8px",
+                "stack-gap-sm": "12px",
+                "container-padding": "24px",
+                "section-margin": "64px",
+                "stack-gap-md": "24px",
+                "stack-gap-lg": "40px"
+        },
+        "fontFamily": {
+                "body-lg": [
+                        "Quicksand"
+                ],
+                "display-lg": [
+                        "Bricolage Grotesque"
+                ],
+                "display-mobile": [
+                        "Bricolage Grotesque"
+                ],
+                "label-caps": [
+                        "Quicksand"
+                ],
+                "headline-md": [
+                        "Bricolage Grotesque"
+                ],
+                "body-md": [
+                        "Quicksand"
+                ]
+        },
+        "fontSize": {
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "52px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "display-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.1em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-md": [
+                        "28px",
+                        {
+                                "lineHeight": "34px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #fff9f0; /* surface */
+            background-image: radial-gradient(#fdd73b 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-delayed {
+            animation: float 4.5s ease-in-out infinite 1s;
+        }
+        
+        .bouncy-button {
+            border-bottom: 4px solid #842415; /* on-primary-fixed-variant */
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .bouncy-button:active {
+            transform: translateY(2px) scale(0.95);
+            border-bottom-width: 0px;
+            margin-top: 4px;
+        }
+        
+        .text-stroke {
+            -webkit-text-stroke: 2px #fff;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        
+        .pop-in {
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background: #ffd300;
+            top: 0;
+            opacity: 0;
+        }
+    </style>
+<!-- Confetti Container -->
+<div class="fixed inset-0 pointer-events-none z-50" id="confetti-container"></div>
+<!-- TopAppBar (Consistent with Step 1 & 3) -->
+<header class="w-full top-0 sticky z-40 bg-background flex items-center justify-between px-container-padding py-unit max-w-[480px] mx-auto flat no shadows">
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:opacity-80 transition-opacity text-primary font-bold active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</button>
+<div class="flex-1 flex flex-col items-center">
+<h1 class="font-headline-md text-headline-md text-center text-primary font-bold">Step 2 of 9</h1>
+</div>
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:opacity-80 transition-opacity text-outline active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[480px] mx-auto flex flex-col items-center justify-center px-container-padding py-section-margin relative z-10 pb-32">
+<!-- Decorative Background Elements -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
+<div class="absolute top-[20%] left-[10%] w-4 h-4 rounded-full bg-secondary-container floating opacity-70"></div>
+<div class="absolute top-[15%] right-[15%] w-6 h-6 rotate-45 bg-primary-container floating-delayed opacity-60"></div>
+<div class="absolute bottom-[30%] left-[20%] w-3 h-3 rounded-full bg-tertiary-container floating opacity-80"></div>
+<div class="absolute bottom-[25%] right-[25%] w-5 h-5 rotate-12 bg-secondary-fixed floating-delayed opacity-70"></div>
+<!-- Radiating lines center -->
+<svg class="absolute w-[150%] h-[150%] max-w-none opacity-20 animate-spin-slow" style="animation: spin 30s linear infinite;" viewBox="0 0 100 100">
+<defs>
+<g id="ray">
+<path d="M50,50 L50,0" stroke="#fdd73b" stroke-linecap="round" stroke-width="2"></path>
+</g>
+</defs>
+<use href="#ray"></use>
+<use href="#ray" transform="rotate(30 50 50)"></use>
+<use href="#ray" transform="rotate(60 50 50)"></use>
+<use href="#ray" transform="rotate(90 50 50)"></use>
+<use href="#ray" transform="rotate(120 50 50)"></use>
+<use href="#ray" transform="rotate(150 50 50)"></use>
+<use href="#ray" transform="rotate(180 50 50)"></use>
+<use href="#ray" transform="rotate(210 50 50)"></use>
+<use href="#ray" transform="rotate(240 50 50)"></use>
+<use href="#ray" transform="rotate(270 50 50)"></use>
+<use href="#ray" transform="rotate(300 50 50)"></use>
+<use href="#ray" transform="rotate(330 50 50)"></use>
+</svg>
+<style> @keyframes spin { 100% { transform: rotate(360deg); } } </style>
+</div>
+<!-- Central Celebration Content -->
+<div class="relative z-10 flex flex-col items-center text-center space-y-stack-gap-md w-full mt-8">
+<div class="flex flex-col items-center space-y-2 pop-in" style="animation-delay: 0.1s;">
+<h2 class="font-display-lg text-[64px] text-primary-fixed-dim text-stroke tracking-tight leading-none transform rotate-[-2deg] font-extrabold uppercase" style="-webkit-text-stroke: 3px #a53b29; color: #ffb4a6;">BOOM!</h2>
+<h3 class="font-headline-md text-[32px] text-on-surface font-extrabold uppercase mt-2 text-stroke" style="color: #731709; -webkit-text-stroke: 1px #fff; text-shadow: 1px 1px 0 rgba(0,0,0,0.1);">HAPPY BIRTHDAY!!!</h3>
+</div>
+<!-- Name Ribbon -->
+<div class="relative w-full max-w-[280px] h-20 my-stack-gap-md pop-in" style="animation-delay: 0.3s;">
+<div class="absolute inset-0 bg-primary-fixed-dim rounded-lg flex items-center justify-center shadow-md transform -rotate-1 border-2 border-white">
+<span class="font-display-mobile text-[36px] text-white uppercase tracking-wider font-extrabold" style="text-shadow: 2px 2px 0 #a53b29;">FICHA</span>
+</div>
+</div>
+<!-- Animated Age Display -->
+<div class="font-display-lg text-secondary pop-in text-stroke flex items-center justify-center" style="animation-delay: 0.5s; font-size: 80px; line-height: 1; color: #fdd73b; -webkit-text-stroke: 3px #715d00; text-shadow: 4px 4px 0 rgba(0,0,0,0.1);">
+<span id="age-counter">0</span>
+</div>
+<!-- Floating Character/Doodle Image -->
+<div class="w-32 h-32 mt-stack-gap-md pop-in floating" style="animation-delay: 0.7s;">
+<img class="w-full h-full object-contain" data-alt="A cute, chubby, doodle-style dinosaur character cheering excitedly. The character is drawn with thick, smooth outlines, soft pastel green color, and rosy cheeks. It is jumping up with its short arms raised in celebration. The background is transparent. Soft, warm lighting style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhSZspf0WyWBhlSe7g_2X2msnIef5SmN3Vfhogi8BkVvw5DqkgErfR3YJajKd0Tv-WxjIMmyq1Tz8fGDrAGXNkJegZP2CUFOn0hpbZ9fVY_eGC8EQFu5HpZw1HPDSPJLTaoxfLDuYN1dDGuXkSwZ2AkhmkxDCEcy0N5tP96Qjcyeq7h9y2LPO7WnoLuc250RQmQYKKS9zfROFS7TdXIh_eEpwY-9jqWMbDtcvUavYLc7wdjD8I1-vAlq2o8yguIAKsPmPfTkSArxyMAQ">
+</div>
+</div>
+<!-- Bottom Action -->
+<div class="mt-8 w-full px-container-padding flex justify-center pop-in z-10" style="animation-delay: 0.9s;">
+<button class="bg-secondary-container text-on-secondary-container font-headline-md text-headline-md px-8 py-4 rounded-full bouncy-button w-full max-w-[240px] shadow-[0_8px_24px_0_rgba(253,215,59,0.3)] flex items-center justify-center gap-2">
+<span>Let's Go!</span>
+<span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Consistent with Step 1 & 3) -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] flex justify-around items-center px-4 pb-8 pt-4 bg-surface-container-low shadow-[0_-4px_20px_0_rgba(255,126,103,0.1)] rounded-t-lg z-50 md:hidden">
+<a class="flex flex-col items-center justify-center text-outline px-4 py-2 opacity-70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="grid_view">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">The Game</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline px-4 py-2 opacity-70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Our Path</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline px-4 py-2 opacity-70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="card_giftcard">card_giftcard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Surprise</span>
+</a>
+</nav>
+<script>
+    // Confetti Explosion
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById('confetti-container');
+        const colors = ['#fdd73b', '#ffb4a6', '#93f2f1', '#a53b29', '#76d6d5'];
+        
+        for (let i = 0; i < 100; i++) {
+            createConfetti(container, colors);
+        }
+
+        // Count up animation
+        const counter = document.getElementById('age-counter');
+        let count = 0;
+        const target = 21;
+        const duration = 2000; // 2 seconds
+        const incrementTime = duration / target;
+
+        setTimeout(() => {
+            const timer = setInterval(() => {
+                count++;
+                counter.textContent = count;
+                if (count === target) {
+                    clearInterval(timer);
+                }
+            }, incrementTime);
+        }, 1000); // Start after pop-in animation
+    });
+
+    function createConfetti(container, colors) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti-piece rounded-sm';
+        
+        // Random properties
+        const left = Math.random() * 100;
+        const animationDuration = Math.random() * 3 + 2;
+        const animationDelay = Math.random() * 1;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        confetti.style.left = `${left}vw`;
+        confetti.style.backgroundColor = color;
+        
+        // Keyframes for this specific piece
+        const animationName = `fall-${Math.floor(Math.random() * 1000)}`;
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes ${animationName} {
+                0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(${Math.random() * 720}deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        confetti.style.animation = `${animationName} ${animationDuration}s ${animationDelay}s forwards ease-out`;
+        
+        container.appendChild(confetti);
+        
+        // Clean up
+        setTimeout(() => {
+            confetti.remove();
+            style.remove();
+        }, (animationDuration + animationDelay) * 1000);
+    }
+</script>
+</body></html>

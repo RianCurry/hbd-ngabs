@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Galeri Kenangan - Ficha 21st</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&amp;family=Quicksand:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#006a69",
+                        "secondary-fixed-dim": "#e8c426",
+                        "primary-container": "#ff7e67",
+                        "surface-container-low": "#f9f3ea",
+                        "on-secondary-container": "#715d00",
+                        "on-primary-container": "#731709",
+                        "on-tertiary-fixed-variant": "#00504f",
+                        "surface-dim": "#dfd9d1",
+                        "on-primary-fixed": "#3f0300",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e7e2d9",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface": "#fff9f0",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#004241",
+                        "inverse-primary": "#ffb4a6",
+                        "surface-bright": "#fff9f0",
+                        "primary-fixed-dim": "#ffb4a6",
+                        "surface-variant": "#e7e2d9",
+                        "on-surface-variant": "#57423e",
+                        "on-secondary-fixed-variant": "#554500",
+                        "surface-container": "#f3ede4",
+                        "secondary-container": "#fdd73b",
+                        "on-surface": "#1d1b16",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#ffdad4",
+                        "background": "#fff9f0",
+                        "outline": "#8b716d",
+                        "on-secondary-fixed": "#221b00",
+                        "inverse-on-surface": "#f6f0e7",
+                        "inverse-surface": "#32302a",
+                        "surface-tint": "#a53b29",
+                        "secondary": "#705d00",
+                        "on-tertiary-fixed": "#002020",
+                        "primary": "#a53b29",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffe173",
+                        "on-background": "#1d1b16",
+                        "tertiary-container": "#51b3b2",
+                        "outline-variant": "#dec0ba",
+                        "tertiary-fixed-dim": "#76d6d5",
+                        "on-primary-fixed-variant": "#842415",
+                        "tertiary-fixed": "#93f2f1",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#ede7df",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap-sm": "12px",
+                        "stack-gap-md": "24px",
+                        "unit": "8px",
+                        "stack-gap-lg": "40px",
+                        "section-margin": "64px",
+                        "container-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "display-mobile": [
+                            "Bricolage Grotesque"
+                        ],
+                        "body-lg": [
+                            "Quicksand"
+                        ],
+                        "label-caps": [
+                            "Quicksand"
+                        ],
+                        "body-md": [
+                            "Quicksand"
+                        ],
+                        "headline-md": [
+                            "Bricolage Grotesque"
+                        ],
+                        "display-lg": [
+                            "Bricolage Grotesque"
+                        ]
+                    },
+                    "fontSize": {
+                        "display-mobile": [
+                            "36px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "800"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "label-caps": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.1em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "headline-md": [
+                            "28px",
+                            {
+                                "lineHeight": "34px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "52px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .floating-star {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .polaroid-card {
+            background: white;
+            padding: 12px 12px 32px 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255,126,103,0.1);
+            border: 1px solid theme('colors.outline-variant');
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .polaroid-card:hover {
+            transform: scale(1.02) rotate(-1deg);
+        }
+
+        .btn-bouncy {
+            border-bottom: 4px solid #842415; /* Darker shade of primary for 3D effect */
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .btn-bouncy:active {
+            transform: translateY(2px) scale(0.95);
+            border-bottom-width: 0px;
+            margin-top: 4px; /* Compensate for lost border */
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center relative overflow-x-hidden pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface/80 backdrop-blur-md z-40">
+<div class="flex items-center justify-between px-container-padding h-16 w-full max-w-[480px] mx-auto">
+<button aria-label="Go back" class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200 p-2 -ml-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">Step 5 of 9</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-[480px] px-container-padding flex-1 flex flex-col pt-6 pb-12 relative z-10">
+<!-- Decorative Floating Elements Background -->
+<div aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden">
+<span class="material-symbols-outlined absolute top-10 left-4 text-secondary-fixed-dim/40 floating-star" style="font-size: 24px;">star</span>
+<span class="material-symbols-outlined absolute top-40 right-6 text-primary-container/30 floating-star" style="animation-delay: 1s; font-size: 32px;">favorite</span>
+<span class="material-symbols-outlined absolute bottom-1/4 left-8 text-secondary-fixed-dim/40 floating-star" style="animation-delay: 2s; font-size: 20px;">auto_awesome</span>
+<span class="material-symbols-outlined absolute bottom-20 right-10 text-primary-container/30 floating-star" style="animation-delay: 0.5s; font-size: 28px;">star</span>
+</div>
+<!-- Header Section -->
+<div class="text-center mb-10 relative z-10">
+<h2 class="font-display-mobile text-display-mobile text-primary mb-2">Galeri Kenangan</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-sm mx-auto">
+                Setiap foto menyimpan cerita yang tak terlupakan.
+            </p>
+</div>
+<!-- Masonry / Asymmetric Gallery Grid -->
+<div class="grid grid-cols-2 gap-4 mb-stack-gap-lg relative z-10">
+<!-- Item 1: Baby (Full width emphasis) -->
+<div class="col-span-2 polaroid-card rotate-1 z-10">
+<div class="aspect-square w-full rounded-lg overflow-hidden bg-surface-variant mb-3">
+<img alt="Baby Ficha" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Wf0x7GDw1XVYrYQYWU70Rc5Kuvu3IOnUQ2-gAggGpFynFjSTK4T-m2ltCPTQDc9Ml6VUOCCHsCMX_8r2W-ZfAhUSkjAkPL_vnObaPAqM1VkNoihqthfa-2-fftiL1dYRUYoORDuu4Enye9aEf7w_hbC7NgT4zD96Zd3fKiEZE7HnDVz_EkDDguthDdoxAKGWlYn0xNypvB3rRu5mObH5Ue6vrm9VTW-ViZPRHdBGwY5Abcs6Z5EpHHXBw"/>
+</div>
+<p class="font-label-caps text-label-caps text-center text-on-surface-variant opacity-70">Awal Cerita</p>
+</div>
+<!-- Item 2: MTS -->
+<div class="col-span-1 polaroid-card -rotate-2 mt-4 z-20">
+<div class="aspect-square w-full rounded-lg overflow-hidden bg-surface-variant mb-3">
+<img alt="MTS days" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1V_HsFjvu5n3DOFNyRvCJMq_O-7Ecc0QCj9IH_J_xMK-ZdowPQma48B1NgzrM7zqAQX9rnCI0SHU6QTmW3dSLCrxFzLN7mbQREnVjeWr1aTfjLEkJGYCn1cKSmWsnkBAha6RVMo9FSgf11d10cZdv6DZS49F3MxIHv3r1RCrCpB1BV0LHUv8S5KFIdabXGcOLSbxf_8rJ67VGFQDRHCPdhn2ostvXntYg4JM3wYECMcGIGeO2fA_o1nsSo"/>
+</div>
+<p class="font-label-caps text-label-caps text-center text-on-surface-variant opacity-70">Masa SMP</p>
+</div>
+<!-- Item 3: SMK -->
+<div class="col-span-1 polaroid-card rotate-3 -mt-2 z-10">
+<div class="aspect-square w-full rounded-lg overflow-hidden bg-surface-variant mb-3">
+<img alt="SMK memories" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UPgitwwdeHUtwIuT6n0XZKcuwWoYBSi3qeqeVWv2UeZdngwbI4WEzq2OJOnFMWYuEmuuQGjmKII8xaYR-ENTL38ZAJ_zAUJOp2f7fGq7b1tnZ1foNAwG0n9WKXJw7PEnUA-RlQBqiqDuytOuTILGT3kfVjFTwyOSTRaBQvU6-7gBKRMw6_ntZj56hxnA4Wf9FQJ7EBL8gbzkpl-jXNutYh95V0uo0Dm6aBYOeIbqf91hpTzwukIlLuHVU"/>
+</div>
+<p class="font-label-caps text-label-caps text-center text-on-surface-variant opacity-70">Seragam SMK</p>
+</div>
+<!-- Item 4: Kuliah (Full width bottom anchor) -->
+<div class="col-span-2 polaroid-card -rotate-1 mt-6 z-30">
+<div class="aspect-[4/3] w-full rounded-lg overflow-hidden bg-surface-variant mb-3">
+<img alt="University life" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Xaw2D9ZnILdioo2kromiePXvWamfO3asd_t5ar9_F0V9srt-6C8lli_1u691Sx5BJpG2abUpxWvq0rgW7MfnsQ9dVl1pN8siA_sZvcYECmkDahZ_VEWz8g3q7yB2Dkl3edQfFZx_nyssXUVVvc8kNfhXg8MmYHLJBBB33lbTBsjNjAmgsCkw6PqoEB8a7mw23961_koJ0IdiM3YaqUO6o-XXPKrcWntZ2QPbGdS6aYDv_Vt7JODiS98es"/>
+</div>
+<p class="font-label-caps text-label-caps text-center text-on-surface-variant opacity-70">Dunia Kampus</p>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-auto pt-6 flex justify-center pb-4 relative z-10">
+<button class="btn-bouncy w-full max-w-[280px] bg-primary text-on-primary font-body-lg text-body-lg font-bold py-4 px-8 rounded-full shadow-[0_8px_25px_rgba(255,126,103,0.3)] flex items-center justify-center gap-2">
+<span>Lanjutkan</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 20px;">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-[32px] bg-surface-container/90 backdrop-blur-lg shadow-[0_-4px_20px_rgba(255,126,103,0.15)] pb-safe">
+<div class="flex justify-around items-center px-4 py-3 h-[88px] max-w-[480px] mx-auto relative">
+<!-- Inactive: The Game -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 hover:text-primary transition-colors w-20">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">videogame_asset</span>
+<span class="font-label-caps text-label-caps text-[10px]">The Game</span>
+</button>
+<!-- Active: Our Path -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-2 transition-all duration-300 transform scale-105 shadow-sm active:translate-y-1 active:scale-95 relative -top-4 border-4 border-surface">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">auto_awesome_motion</span>
+<span class="font-label-caps text-label-caps text-[10px]">Our Path</span>
+</button>
+<!-- Inactive: Surprise -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 hover:text-primary transition-colors w-20">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">card_giftcard</span>
+<span class="font-label-caps text-label-caps text-[10px]">Surprise</span>
+</button>
+</div>
+</nav>
+<!-- CSS specifically for safe area support on modern mobile devices -->
+<style>
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+    </style>
+</body></html>
