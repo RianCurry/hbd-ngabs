@@ -44,5 +44,7 @@ Keep growing. Keep dreaming. Take your time. And keep becoming the person you wa
 
 Penutup
 
-That's all I wish for you. Nothing complicated. Just a lot of good things, little by little.`,
+That's all I wish for you. Nothing complicated. Just a lot of good things, little by little.
+
+— Haidar Maou`,
 } as const;
