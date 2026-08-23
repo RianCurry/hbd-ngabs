@@ -15,7 +15,7 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Happy Birthday Ficha!",
+  title: "tictac ngao",
   description: "A special birthday surprise for Ficha",
 };
 
