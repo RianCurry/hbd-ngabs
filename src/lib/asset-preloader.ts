@@ -91,6 +91,77 @@ function preloadSceneAssets(scene: BirthdayScene): void {
   images.forEach(preloadImage);
 }
 
+/* --------------------------- Startup gate assets -------------------------- */
+
+/* Everything the first two screens need: the tic-tac-toe board art plus
+   all three audio channels (chiptune BGM, firework SFX, Happy Birthday
+   BGM). Awaited by the startup gate so step 1 renders fully stocked and
+   the reveal SFX chain never stutters; later scenes keep streaming via
+   the idle-time scheduler below. */
+const CRITICAL_IMAGES = [...OPPONENT_MOVE_IMAGES, WIN_IMAGE].map(
+  randomImageUrl
+);
+const CRITICAL_AUDIO = [GAME_BGM_SRC, FIREWORKS_SFX_SRC, MAIN_BGM_SRC];
+
+/* Per-asset stall guard - one dead link or slow CDN must never trap the
+   user behind the loader forever. */
+const ASSET_TIMEOUT_MS = 8000;
+
+/** Promise variant of the image warm-up; resolves (never rejects) once
+    the fetch settles, and feeds the same dedupe registry. */
+function loadImage(src: string): Promise<void> {
+  if (!startedImageUrls.has(src)) {
+    startedImageUrls.add(src);
+  }
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+    img.src = src;
+  });
+}
+
+/** Resolves when the shared element has buffered enough to play through,
+    or on error / timeout - whichever comes first. */
+function waitForAudio(el: HTMLAudioElement): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (el.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA)
+    return Promise.resolve();
+  return new Promise((resolve) => {
+    const timer = window.setTimeout(finish, ASSET_TIMEOUT_MS);
+    function finish(): void {
+      window.clearTimeout(timer);
+      el.removeEventListener("canplaythrough", finish);
+      el.removeEventListener("error", finish);
+      resolve();
+    }
+    el.addEventListener("canplaythrough", finish);
+    el.addEventListener("error", finish);
+  });
+}
+
+/** Awaits every critical asset, reporting 0..1 progress as each one
+    settles. Idempotent-safe: reuses the same deduped elements/fetches as
+    the rest of the preloader. */
+export async function preloadCriticalAssets(
+  onProgress: (fraction: number) => void
+): Promise<void> {
+  if (typeof window === "undefined") return;
+  const tasks = [
+    ...CRITICAL_IMAGES.map(loadImage),
+    ...CRITICAL_AUDIO.map((src) => waitForAudio(getAudioElement(src))),
+  ];
+  let settled = 0;
+  const total = tasks.length || 1;
+  tasks.forEach((task) =>
+    task.then(() => {
+      settled += 1;
+      onProgress(settled / total);
+    })
+  );
+  await Promise.all(tasks);
+}
+
 /* ------------------------------- Scheduling ------------------------------- */
 
 /* Runs after first paint / when the main thread is free; the timeout keeps

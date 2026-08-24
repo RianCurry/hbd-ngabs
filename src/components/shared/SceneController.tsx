@@ -8,6 +8,7 @@ import type { BirthdayScene } from "@/types";
 import { SCENE_ORDER } from "@/types";
 import TicTacToe from "@/components/game/TicTacToe";
 import AudioControl from "@/components/shared/AudioControl";
+import PreloadGate from "@/components/shared/PreloadGate";
 import FireworksTransition from "@/components/confetti/FireworksTransition";
 import { audioManager } from "@/lib/audio-manager";
 import { scheduleScenePreload } from "@/lib/asset-preloader";
